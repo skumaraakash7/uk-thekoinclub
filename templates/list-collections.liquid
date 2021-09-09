@@ -1,0 +1,12 @@
+{% comment %}
+  This page represents the /collections and /products pages.
+{% endcomment %}
+<div class="collection">
+  <div class="card-grid">
+    {% for collection in collections %}
+      {% unless collection.handle == 'frontpage' %}
+        {% render 'collection-card' with collection: collection, show_title: true %}
+      {% endunless %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,66 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Subscribe
+------------------------------------------------------------------------------
+{% endcomment %}
+{% assign rebuy_id = section.settings.feed_id %}
+<section class="">
+    <div class="site-footer__subscribe background-color-blue color-white">
+        <div class="page-width page-padding site-footer__subscribe-inner">
+        <div class="container">
+            <div class="text-center">
+            <div class="inline-block site-footer__subscribe-text">
+                <h4 class="h4 subscribe-text-inner no-margin-bottom">{{ 'general.newsletter_form.newsletter_email_html' | t }}</h4>
+            </div>
+            <div class="inline-block site-footer__subscribe-form">
+                <div class="newsletter-subscribe inline-block-wrapper">
+                <div
+                    class="button button--yellow site-footer__signup-button"
+                    id="sign-up-trigger"
+                    js-popup="trigger"
+                    data-popup-id="sign-up-popup"
+                >
+                    Sign up
+                </div>
+                <div
+                    class="sign-up-popup popup"
+                    id="sign-up-popup"
+                    js-popup="popup"
+                    js-popup-id="sign-up-popup"
+                >
+                    <div class="popup__wrapper">
+                    <div class="popup__content background-color-white color-black text-left">
+                        <div class="relative">
+                        <div
+                            class="popup__close"
+                            js-popup="close"
+                        >{% render 'icons' with icon: 'close' %}</div>
+                        <div class="klaviyo-form-XTUinA"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <div
+                    class="popup-overlay background-opal-black"
+                    js-popup="close"
+                    ></div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Subscribe",
+    "settings": [
+
+    ],
+    "presets": [{
+        "name": "Subscribe",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

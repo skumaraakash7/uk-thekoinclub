@@ -1,0 +1,149 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Product card
+  - Uses the card component as the base
+------------------------------------------------------------------------------
+{% endcomment %}
+<div
+  class="product-card"
+>
+
+  {% if product.featured_image != blank or empty_template %}
+    {% assign featured_image = product.featured_image %}
+  {% else %}
+    {% assign featured_image = images['coming-soon.jpg'] %}
+  {% endif %}
+
+  <div class="product-card__thumbnail-container relative">
+
+    <a
+      class="product-card__link"
+      href="{{ product.url | within: collection }}"
+    >
+
+      {% render 'responsive-image' with
+        image: featured_image,
+        max_width: 700,
+        max_height: 800,
+        wrapper_class: 'product-card__thumbnail'
+      %}
+
+      {% render 'responsive-image' with
+        image: product.images[1],
+        max_width: 700,
+        max_height: 800,
+        wrapper_class: 'product-card__thumbnail--hover'
+      %}
+
+      {% if product.compare_at_price > product.price %}
+
+        {% assign discount = product.price | minus: product.compare_at_price %}
+
+        {% if product.compare_at_price > product.price %}
+          <div class="small background-color-red product-card__discount no-margin-bottom color-white bold">
+            {{ discount | times: -100.00 | divided_by: product.compare_at_price | round }}%
+          </div>
+        {% endif %}
+
+      {% endif %}
+
+    </a>
+
+    <button
+      class="swym-button swym-add-to-wishlist-view-product product-card__wishlist-button product_{{product.id}}"
+      data-with-epi="true"
+      data-swaction="addToWishlist"
+      data-product-id="{{product.id | json}}"
+      data-variant-id="{{product.variants[0].id}}"
+      data-product-url="{{ shop.url }}{{ product.url }}"
+    >
+        {% render 'icons' with icon: 'favourite-circle' %}
+        {% render 'icons' with icon: 'favourite-sans-circle' %}
+    </button>
+
+    {% assign allowed_more = true %}
+    {% assign allowed_multiples = true %}
+    {% for tag in product.tags %}
+        {% if tag contains 'MAX ORDER: 1' %}
+            {% assign allowed_multiples = false %}
+        {% endif %}
+    {% endfor %}
+
+    {% if allowed_multiples == false %}
+        {% for item in cart.items %}
+            {% if item.product.id == product.id %}
+                {% assign allowed_more = false %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if allowed_more %}
+      {%- if product.requires_selling_plan -%}
+        {%- if product.selling_plan_groups[0].selling_plans[0].id != blank -%}
+          {%- assign product_available = true  -%}
+        {%- else -%}
+          {%- assign product_available = false  -%}
+        {%- endif -%}
+      {%- elsif product.variants.first.available -%}
+        {%- assign product_available = true  -%}
+      {%- else -%}
+        {%- assign product_available = true  -%}
+        {% comment %}
+          True because you can still buy a product that is out of stock
+        {% endcomment %}
+      {%- endif -%}
+
+      {% if product.requires_selling_plan == false %}
+        <a
+          href="/cart/add?id={{ product.variants.first.id }}&amp;quantity=1&amp;{% if product.requires_selling_plan %}selling_plan={{ product.selling_plan_groups[0].selling_plans[0].id }}{% endif %}"
+          class="button button--with-icon product-form-cart-submit product-card__button product-card__button--{{ product.type }} add-product-id-{{ product.id }}"
+          data-max-order-id="add-product-id-{{ product.id }}"
+          js-cart="add"
+          {%- if allowed_multiples == false -%}max-order="1"{%- endif -%}
+        >
+          <span class="button__preloading">{% render 'icons' with icon: 'quick add' %}</span>
+          <span class="hide--m button__preloading">{{- 'products.product.add_to_cart_quick_html' | t -}}</span>
+          <span class="button__loading">
+            {% render 'icons' with icon: 'free-returns' %}
+          </span>
+        </a>
+      {% endif %}
+    {% endif %}
+
+  </div>
+
+
+  <div class="product-card__footer">
+    {% assign badge_text = '' %}
+    {% assign badge_border = 'blue' %}
+    {% for tag in product.tags %}
+      {% if tag contains 'BADGE' %}
+        {% assign badge_text = tag | remove: "BADGE: " %}
+        {% assign badge_class = badge_text | downcase | replace: ' ', '-' | replace: '%', '' | replace: '£', '' | replace: '.', '' %}
+      {% endif %}
+    {% endfor %}
+
+    {% if badge_text != blank or product.type != blank  %}
+      <div class="small caps border-left border-badge-{{ badge_class }} product-card__purchase-type">
+        {% if badge_text != blank %}
+          {{ badge_text }}
+        {% else %}
+          {{ product.type }}
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="small caps product-card__purchase-type">
+        &nbsp;
+      </div>
+    {% endif %}
+    <a
+      class="product-card__link-text"
+      href="{{ product.url | within: collection }}"
+    >
+      <h3 class="h6 product-card__title">
+        {{ product.title }}
+      </h3>
+    </a>
+    {% render 'product-price' with product: product %}
+  </div>
+</div>

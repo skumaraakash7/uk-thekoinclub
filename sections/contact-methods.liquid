@@ -1,0 +1,96 @@
+{% for block in section.blocks %}
+    <li class="contact-methods_list-item border-bottom border-color-light-grey p">
+        <a href="{{ block.settings.link }}" target="_blank" class="contact-methods_link">
+            {% assign icon = block.settings.icon %}
+            {% render 'social-icons' with icon: icon %}
+            {{ block.settings.title }}
+        </a>
+    </li>
+{% endfor %}
+
+{% schema %}
+  {
+    "name": "Contact",
+    "settings": [
+
+    ],
+      "blocks": [
+        {
+          "type": "contact_method",
+          "name": "Contact methods",
+          "settings": [
+            {
+              "type": "select",
+              "id": "icon",
+              "label": "Icon",
+              "options": [
+                {
+                  "value": "instagram",
+                  "label": "Instagram"
+                },
+                {
+                  "value": "pinterest",
+                  "label": "Pinterest"
+                },
+                {
+                  "value": "youtube",
+                  "label": "YouTube"
+                },
+                {
+                  "value": "vimeo",
+                  "label": "Vimeo"
+                },
+                {
+                  "value": "tiktok",
+                  "label": "TikTok"
+                },
+                {
+                  "value": "facebook",
+                  "label": "Facebook"
+                },
+                {
+                  "value": "messenger",
+                  "label": "Messenger"
+                },
+                {
+                  "value": "snapchat",
+                  "label": "SnapChat"
+                },
+                {
+                  "value": "twitter",
+                  "label": "Twitter"
+                },
+                {
+                  "value": "whatsapp",
+                  "label": "Whatsapp"
+                },
+                {
+                  "value": "phone",
+                  "label": "Phone"
+                },
+                {
+                  "value": "email",
+                  "label": "Email"
+                },
+                {
+                  "value": "livechat",
+                  "label": "Livechat"
+                }
+              ],
+              "default": "instagram"
+            },
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Label"
+            },
+            {
+              "type": "text",
+              "id": "link",
+              "label": "Link"
+            }
+          ]
+        }
+      ]
+  }
+{% endschema %}

@@ -1,0 +1,231 @@
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="{{ settings.color_accent }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {% render 'head-favicons' %}
+  {% render 'head-seo-tags' %}
+  {% render 'head-social-meta-tags' %}
+  {% render 'head-tracking-tags' %}
+  {% render 'theme-strings' %}
+
+  {{ content_for_header }}
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+
+  <style>
+    {% render 'critical.css' %}
+    /* Background images */
+    body select {
+      background: url({{ 'icon-downward-chevron.svg' | asset_url }} ) no-repeat right;
+    }
+  </style>
+
+  <script src="https://cdn.db-ip.com/js/dbip.js"
+	  data-api-key="p529633b4d8fe490390140ac31d8b6aae338bb6a">
+  </script>
+
+  <!-- Piio -->
+  <link rel="preconnect" href="//pcdn.piiojs.com" crossorigin>
+  <link rel="preload" as="script" href="//pcdn.piiojs.com/dwrhuy/image.min.js">
+  <script type="text/javascript">
+  (function(i,m,a,g,e) {
+  e = i.getElementsByTagName(m)[0], (g = i.createElement(m)).src = "//pcdn.piiojs.com/"+a+"/image.min.js",
+  g.onerror = function() {
+  (g = i.createElement(m)).src = "https://fs.piio.co/image-failover.min.js",
+  e.parentNode.insertBefore(g, e);
+  }, e.parentNode.insertBefore(g, e);
+  }(document, "script", "dwrhuy"));
+  </script>
+  <!-- end of Piio -->
+
+  {% include 'swym-header-counter'%}
+
+  <style>
+    {%- for item in cart.items -%}
+        {%- for tag in item.product.tags -%}
+            {%- if tag contains 'MAX ORDER: 1' -%}
+              .add-product-id-{{ item.product.id }} {
+                opacity: 0!important;
+                pointer-events: none!important;
+              }
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endfor -%}
+    .cart-item-maxed-message {
+      display: none;
+    }
+    {%- assign collection = collections['max-order-1'] -%}
+    {% paginate collection.products by 1000 %}
+        {% for product in collection.products %}
+          .product-{{ product.handle }} .rebuy-cart__flyout-item-quantity-widget-label + button,
+          .xproduct-{{ product.handle }} .rebuy-cart__flyout-item-quantity-widget button,
+          .xproduct-{{ product.handle }} .rebuy-cart__flyout-item-quantity-widget span {
+            opacity: 0.5!important;
+            pointer-events: none!important;
+          }
+          .product-{{ product.handle }} .cart-item-maxed-message {
+            display: block;
+          }
+        {% endfor %}
+    {% endpaginate %}
+    .disabled-button {
+      opacity: 0.5!important;
+      pointer-events: none!important;
+    }
+    .product-card .disabled-button {
+      opacity: 0!important;
+      pointer-events: none!important;
+    }
+  </style>
+
+  <script>
+
+    function addMaxOrderClasses() {
+      {%- for item in cart.items -%}
+        {%- for tag in item.product.tags -%}
+          {%- if tag contains 'MAX ORDER: 1' -%}
+            document.querySelectorAll('.add-product-id-{{ item.product.id }}').forEach(function(maxOrderButton){
+              maxOrderButton.classList.add('max-order-1');
+            });
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    };
+
+    document.addEventListener('rebuy.ready', function(event){
+      setTimeout(function(){
+        addMaxOrderClasses();
+      }, 0);
+    });
+
+    function replaceQtyMessage() {
+      {%- for item in cart.items -%}
+        {%- for tag in item.product.tags -%}
+          {%- if tag contains 'MAX ORDER: 1' -%}
+            let handle = '.product-{{ item.product.handle }} .rebuy-cart__flyout-item-quantity-widget';
+            if( document.querySelectorAll(handle).length ) {
+              document.querySelector(handle).innerHTML = '<p class="bold caps">Max qty reached</p>';
+            }
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    }
+
+    document.addEventListener('rebuy:cart.change', function(event){
+      setTimeout(function(){
+        //replaceQtyMessage();
+      }, 0);
+    });
+
+  </script>
+
+
+  {% render 'shogun-head' %}
+</head>
+
+<body
+  id="{{ page_title | handle }}"
+  class="template-{{ template.name | handle }} template-suffix-{{ template.suffix }} page-wrap"
+>
+
+  {% render 'body-tracking-tags' %}
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  <header class="site-header-wrapper" js-site-header="wrapper">
+    <section
+      class="site-header background-color-white is-active"
+      data-section-id="{{ section.id }}"
+      data-section-type="site-header"
+      js-site-header="container"
+    >
+      {% section 'site-header' %}
+    </section>
+  </header>
+
+  {% section 'navigation-mobile' %}
+  {% render 'search-mobile' %}
+
+  {% if template == 'index' %}
+    <div class="critical-hide">
+      <div class="home-slideshow">
+        {% section 'slideshow' %}
+      </div>
+    </div>
+  {% endif %}
+
+  <main id="MainContent" class="main-content critical-hide">
+    {% if template != 'index' %}
+      <div class="breadcrumb-wrapper border-bottom border-color-light-grey hide--m">
+        <div class="page-width page-padding">
+          {% render 'breadcrumb' %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="page-width page-padding main-page-wrap">
+      {{ content_for_layout }}
+    </div>
+    {% comment %}
+    {%- section 'go-cart' -%}
+    {% endcomment %}
+  </main>
+
+  {% section 'site-footer' %}
+
+  {{ 'theme.js' | asset_url | script_tag }}
+
+  <script async src ="https://zooomyapps.com/agree/ZooomyCartTerms.js" data-shop="{{shop.permanent_domain}}"  data-cart="{{ cart.item_count }}"  ></script>
+
+  <script src="//connect.nosto.com/include/shopify-52406419644" async></script>
+
+  <noscript id="deferred-css">
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+  </noscript>
+  <script>
+      var loadDeferredStyles = function() {
+          var addStylesNode = document.getElementById("deferred-css");
+          var replacement = document.createElement("div");
+          replacement.innerHTML = addStylesNode.textContent;
+          document.body.appendChild(replacement)
+          addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+      else window.addEventListener('load', function() { window.setTimeout(loadDeferredStyles, 0)});
+  </script>
+  <script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=TJhhdX"></script>
+
+  <script>window.KlarnaThemeGlobals={};{%case template.name%} {%when"product"%} window.KlarnaThemeGlobals.data_purchase_amount={{product.first_available_variant.price}};window.KlarnaThemeGlobals.productVariants={{product.variants|json}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%when"cart"%} window.KlarnaThemeGlobals.data_purchase_amount={{cart.total_price}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%endcase%}</script>
+
+  {% include 'swymSnippet' %}
+  {% include 'swym-init-collections'%}
+
+  {% include 'subscription-theme-footer' %}
+
+  <script src="https://unpkg.com/@loophq/onstore-sdk@latest/dist/loop-onstore-sdk.js"></script>
+  <script>
+    LoopOnstore.init({
+      key: "43aa235201c673af48c7c611cc4418aaaa6133de",
+      attach: ".loop__checkout"
+    });
+  </script>
+
+  <script src="https://rebuyengine.com/js/rebuy?shop={{ shop.permanent_domain }}" async></script>
+
+
+
+{% include 'gtranslate', float: 'yes' %}
+
+</body>
+</html>

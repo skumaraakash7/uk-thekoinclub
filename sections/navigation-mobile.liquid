@@ -1,0 +1,502 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Section: Mobile navigation
+----------------------------------------------------------------------------
+{% endcomment %}
+<div
+    class="site-header__mobile-menu mobile-menu critical-hide"
+    js-mobile-nav="menu"
+    js-mobile-menu="navigation"
+>
+
+    {% if section.blocks.size > 0 %}
+      {% assign footer = false %}
+      {% capture more %}
+        {% for block in section.blocks %}
+          {% if block.settings.type == 'divider' %}
+            {% assign footer = true %}
+          {% endif %}
+          {% if footer %}
+            {% if block.settings.type == 'parent' %}
+            {% elsif block.settings.type == 'direct' %}
+                <li class="mobile-blocks__item mobile-blocks__direct-item relative {% if block.settings.icon != 'none' %}mobile-blocks__direct-item--icon-style{% endif %}">
+                    <div class="mobile-blocks__item-inner relative border-color-light-grey background-color-off-white">
+                        <a href="{{ block.settings.url }}" class="mobile-blocks__direct-item--link">
+
+                            {% if block.settings.title != '' %}
+                                <p class="p mobile-blocks__direct-item--title mobile-blocks__item--title bold">{{ block.settings.title }}</p>
+                            {% endif %}
+
+                            {% if block.settings.icon != 'none' %}
+                                <div class="mobile-blocks__image-icon">
+                                    {% render 'icons' with icon: block.settings.icon %}
+                                </div>
+                            {% else %}
+                                {% render 'responsive-image' with
+                                    image: block.settings.image,
+                                    max_width: 200,
+                                    max_height: 200,
+                                    wrapper_class: 'mobile-blocks__parent-image mobile-blocks__image'
+                                %}
+                            {% endif %}
+
+                        </a>
+                    </div>
+                </li>
+            {% elsif block.settings.type == 'promotion' %}
+                <li class="mobile-blocks__item mobile-blocks__promotion relative">
+                    <div class="mobile-blocks__item-inner border-color-light-grey relative">
+                        <a href="{{ block.settings.url }}" class="mobile-blocks__promotion--link">
+
+                            {% render 'responsive-image' with
+                                image: block.settings.image,
+                                max_width: 600,
+                                max_height: 600,
+                                wrapper_class: 'mobile-blocks__promotion-image mobile-blocks__image'
+                            %}
+
+                            {% if block.settings.title != '' %}
+                                <p class="p mobile-blocks__promotion--title mobile-blocks__item--title bold color-white">{{ block.settings.title }}</p>
+                            {% endif %}
+
+                        </a>
+                    </div>
+                </li>
+            {% elsif block.settings.type == 'square' %}
+                <li class="mobile-blocks__item mobile-blocks__square relative">
+                    <div class="mobile-blocks__item-inner relative border-color-light-grey background-color-off-white">
+                        <a href="{{ block.settings.url }}" class="mobile-blocks__promotion--link">
+
+                            {% render 'responsive-image' with
+                                image: block.settings.image,
+                                max_width: 600,
+                                max_height: 600,
+                                wrapper_class: 'mobile-blocks__square-image mobile-blocks__image'
+                            %}
+
+                            {% if block.settings.title != '' %}
+                                <p class="p mobile-blocks__square--title mobile-blocks__item--title bold text-center">{{ block.settings.title }}</p>
+                            {% endif %}
+
+                        </a>
+                    </div>
+                </li>
+            {% elsif block.settings.type == 'divider' %}
+                <li class="mobile-blocks__item mobile-blocks__divider relative">
+                    <div class="mobile-blocks__item-inner relative background-color-blue">
+                        {% if block.settings.title != '' %}
+                            <p class="p mobile-blocks__square--title mobile-blocks__item--title bold color-white">{{ block.settings.title }}</p>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% render 'change-country-trigger-mobile-wrap' %}
+      {% endcapture %}
+
+      <div class="relative">
+
+        <ul class="list-style-none mobile-menu__nav-list mobile-blocks inline-block-wrapper background-color-white menu-max-width">
+          {% for block in section.blocks %}
+            {% if block.settings.type == 'parent' %}
+              <li
+                  class="mobile-blocks__item mobile-blocks__parent-item menu-item-has-children {% if link.active %}current-menu-item current-menu-parent{% endif %}"
+                  js-mobile-nav="subMenuParent"
+              >
+                  {% if block.settings.link_list != '' %}
+                  <ul
+                      class="list-style-none mobile-menu__sub-menu mobile-blocks__sub-menu--{{ child_list_handle }} background-color-white menu-max-width"
+                      js-mobile-nav="subMenu"
+                  >
+                      <li
+                          class="mobile-blocks__item mobile-blocks__parent-item menu-item-has-children mobile-blocks__parent-item-wide mobile-blocks__sub-nav-title"
+                      >
+                          <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey">
+                            {% if block.settings.title != '' %}
+                              <p
+                              class="p mobile-blocks__parent-item--title mobile-blocks__item--title mobile-blocks__parent-item--sub-nav-title bold"
+                              js-mobile-nav="subMenuClose"
+                              >
+                              <span
+                                  class="close-sub-nav"
+                              >
+                                  {% render 'icons' with icon: 'chevron' %}
+                              </span>
+                              {{ block.settings.title }}
+                              </p>
+                            {% endif %}
+                          </div>
+                      </li>
+                      {% if block.settings.sub_nav_url != blank %}
+                        <li class="mobile-blocks__item mobile-blocks__promotion relative">
+                            <div class="mobile-blocks__sub-menu-item-inner border-color-light-grey relative">
+                                <a href="{{ block.settings.sub_nav_url }}" class="mobile-blocks__promotion--link">
+
+                                    {% render 'responsive-image' with
+                                        image: block.settings.sub_nav_image,
+                                        max_width: 600,
+                                        max_height: 600,
+                                        wrapper_class: 'mobile-blocks__promotion-image mobile-blocks__image'
+                                    %}
+
+                                </a>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                    {% for i in (1..10) %}
+
+                        {% capture sub_nav_title %}sub_nav_title_{{i}}{% endcapture %}
+                        {% capture link_list %}link_list_{{i}}{% endcapture %}
+                        {% if block.settings[sub_nav_title] != blank %}
+                            <li class="mobile-blocks__item mobile-blocks__divider mobile-blocks__divider--subnav relative">
+                                <div class="mobile-blocks__item-inner relative background-color-light-grey">
+                                    <p class="p mobile-blocks__square--title mobile-blocks__item--title bold">{{ block.settings[sub_nav_title] }}</p>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% for link in linklists[block.settings[link_list]].links %}
+                            {% render 'navigation-mobile-subnav' with link: link %}
+                        {% endfor %}
+
+                    {% endfor %}
+
+
+                    {{ more }}
+                  </ul>
+                  {% endif %}
+                  <div
+                    class="mobile-blocks__item-inner relative border-color-light-grey background-color-off-white"
+                    style="background: {{ block.settings.parent_color }}; {% if block.settings.white_text %}color: white;{% endif %}"
+                    js-mobile-nav="subMenuTrigger"
+                  >
+                      {% if block.settings.title != '' %}
+                          <p class="p mobile-blocks__parent-item--title mobile-blocks__item--title bold caps">{{ block.settings.title }}</p>
+                      {% endif %}
+
+                      {% if block.settings.icon != 'none' %}
+                        <div class="mobile-blocks__image-icon">
+                            {% render 'icons' with icon: block.settings.icon %}
+                        </div>
+                      {% else %}
+                      {% render 'responsive-image' with
+                          image: block.settings.image,
+                          max_width: 200,
+                          max_height: 200,
+                          wrapper_class: 'mobile-blocks__parent-image mobile-blocks__image'
+                      %}
+                      {% endif %}
+                  </div>
+              </li>
+            {% elsif block.settings.type == 'direct' %}
+                <li class="mobile-blocks__item mobile-blocks__direct-item relative {% if block.settings.icon != 'none' %}mobile-blocks__direct-item--icon-style{% endif %} {% if forloop.index == 1 %}first-direct-item{% endif %}">
+                    <div
+                        class="mobile-blocks__item-inner relative border-color-light-grey background-color-off-white"
+                        style="background: {{ block.settings.parent_color }}; {% if block.settings.white_text %}color: white;{% endif %}"
+                    >
+                        <a href="{{ block.settings.url }}" class="mobile-blocks__direct-item--link">
+
+                            {% if block.settings.title != '' %}
+                                <p
+                                  class="p mobile-blocks__direct-item--title mobile-blocks__item--title bold caps {% if forloop.index == 1 %}first-direct-item{% endif %}"
+                                >{{ block.settings.title }}</p>
+                            {% endif %}
+
+                            {% if block.settings.icon != 'none' %}
+                                <div class="mobile-blocks__image-icon">
+                                    {% render 'icons' with icon: block.settings.icon %}
+                                </div>
+                            {% else %}
+                                {% render 'responsive-image' with
+                                    image: block.settings.image,
+                                    max_width: 200,
+                                    max_height: 200,
+                                    wrapper_class: 'mobile-blocks__parent-image mobile-blocks__image'
+                                %}
+                            {% endif %}
+
+                        </a>
+                        {% comment %}
+                          {% if forloop.index == 1 %}
+                            <div class="site-header__country-selector site-header__country-selector--mobile-head">
+                              {% render 'change-country-trigger' %}
+                            </div>
+                          {% endif %}
+                        {% endcomment %}
+                    </div>
+                </li>
+            {% elsif block.settings.type == 'promotion' %}
+                <li class="mobile-blocks__item mobile-blocks__promotion relative">
+                    <div class="mobile-blocks__item-inner border-color-light-grey relative">
+                        <a href="{{ block.settings.url }}" class="mobile-blocks__promotion--link">
+
+                            {% render 'responsive-image' with
+                                image: block.settings.image,
+                                max_width: 600,
+                                max_height: 600,
+                                wrapper_class: 'mobile-blocks__promotion-image mobile-blocks__image'
+                            %}
+
+                            {% if block.settings.title != '' %}
+                                <p class="p mobile-blocks__promotion--title mobile-blocks__item--title bold color-white">{{ block.settings.title }}</p>
+                            {% endif %}
+
+                        </a>
+                    </div>
+                </li>
+            {% elsif block.settings.type == 'square' %}
+                <li class="mobile-blocks__item mobile-blocks__square relative">
+                    <div class="mobile-blocks__item-inner relative background-color-off-white">
+                        <a href="{{ block.settings.url }}" class="mobile-blocks__promotion--link">
+
+                            {% render 'responsive-image' with
+                                image: block.settings.image,
+                                max_width: 600,
+                                max_height: 600,
+                                wrapper_class: 'mobile-blocks__square-image mobile-blocks__image'
+                            %}
+
+                            {% if block.settings.title != '' %}
+                                <p class="p mobile-blocks__square--title mobile-blocks__item--title bold text-center border border-color-light-grey">{{ block.settings.title }}</p>
+                            {% endif %}
+
+                        </a>
+                    </div>
+                </li>
+            {% elsif block.settings.type == 'divider' %}
+                <li class="mobile-blocks__item mobile-blocks__divider relative">
+                    <div class="mobile-blocks__item-inner relative background-color-blue">
+
+                        {% if block.settings.title != '' %}
+                            <p class="p mobile-blocks__square--title mobile-blocks__item--title bold color-white">{{ block.settings.title }}</p>
+                        {% endif %}
+
+                    </div>
+                </li>
+            {% endif %}
+          {% endfor %}
+          {% render 'change-country-trigger-mobile-wrap' %}
+        </ul>
+        <div class="menu-overlay background-opal-black" js-mobile-nav="close">
+            <div class="menu-max-width relative">
+                <div class="menu-overlay__close">
+                    {% render 'icons' with icon: 'close' %}
+                </div>
+            </div>
+        </div>
+      </div>
+    {% endif %}
+</div>
+{% schema %}
+  {
+    "name": "Mobile navigation",
+    "settings": [
+
+    ],
+      "blocks": [
+        {
+          "type": "nav",
+          "name": "Navigation block",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Title"
+            },
+            {
+              "type": "select",
+              "id": "type",
+              "label": "Nav type",
+              "options": [
+                {
+                  "value": "parent",
+                  "label": "Parent link"
+                },
+                {
+                  "value": "direct",
+                  "label": "Direct link"
+                },
+                {
+                  "value": "promotion",
+                  "label": "Promotion link"
+                },
+                {
+                  "value": "square",
+                  "label": "Square link"
+                },
+                {
+                  "value": "divider",
+                  "label": "Divider"
+                }
+              ],
+              "default": "parent"
+            },
+            {
+                "type": "color",
+                "id": "parent_color",
+                "label": "Parent background colour"
+            },
+            {
+                "type": "checkbox",
+                "id": "white_text",
+                "label": "White text?",
+                "default": false
+            },
+            {
+              "type": "url",
+              "id": "url",
+              "label": "Link"
+            },
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image"
+            },
+            {
+              "type": "select",
+              "id": "icon",
+              "label": "Icon",
+              "options": [
+                {
+                  "value": "none",
+                  "label": "None"
+                },
+                {
+                  "value": "account",
+                  "label": "Account"
+                },
+                {
+                  "value": "orders",
+                  "label": "Orders"
+                },
+                {
+                  "value": "returns",
+                  "label": "Returns"
+                },
+                {
+                  "value": "information",
+                  "label": "Information"
+                },
+                {
+                  "value": "faqs",
+                  "label": "FAQs"
+                }
+              ],
+              "default": "none"
+            },
+            {
+              "type": "url",
+              "id": "sub_nav_url",
+              "label": "Sub nav promo link"
+            },
+            {
+              "type": "image_picker",
+              "id": "sub_nav_image",
+              "label": "Sub nav promo image"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_1",
+                "label": "Sub nav 1 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_1",
+              "label": "Sub nav list 1"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_2",
+                "label": "Sub nav 2 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_2",
+              "label": "Sub nav list 2"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_3",
+                "label": "Sub nav 3 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_3",
+              "label": "Sub nav list 3"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_4",
+                "label": "Sub nav 4 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_4",
+              "label": "Sub nav list 4"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_5",
+                "label": "Sub nav 5 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_5",
+              "label": "Sub nav list 5"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_6",
+                "label": "Sub nav 6 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_6",
+              "label": "Sub nav list 6"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_7",
+                "label": "Sub nav 7 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_7",
+              "label": "Sub nav list 7"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_8",
+                "label": "Sub nav 8 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_8",
+              "label": "Sub nav list 8"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_9",
+                "label": "Sub nav 9 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_9",
+              "label": "Sub nav list 9"
+            },
+            {
+                "type": "text",
+                "id": "sub_nav_title_10",
+                "label": "Sub nav 10 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_10",
+              "label": "Sub nav list 10"
+            }
+          ]
+        }
+      ]
+  }
+{% endschema %}

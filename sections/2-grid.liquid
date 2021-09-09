@@ -1,0 +1,120 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: 2 Grid
+  - 2 grid section of lifestyle images
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="vertical-padding vertical-padding--section rewards-boxes {% if section.settings.grey_background %}vertical-padding--with-background background-color-off-white{% endif %}">
+  <div class="page-width page-padding">
+    {%- if section.settings.title != blank -%}
+      <h2>{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+    <div class="rewards-boxes__wrap flexbox space-between">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <div class="rewards-box relative">
+            <div class="rewards-box__text">
+              <div class="rewards-box__text-padder">
+                {% assign this_logo = block.settings.logo %}
+                {% if this_logo != 'none' %}
+                  {% render 'logos' with icon: this_logo %}
+                {% else %}
+                  {% render 'responsive-image' with
+                    image: block.settings.logo_image,
+                    max_width: 1000,
+                    max_height: 1000,
+                    wrapper_class: 'logo'
+                  %}
+                {% endif %}
+                <div class="p color-white rewards-box__text-content">
+                  {{ block.settings.text }}
+                </div>
+                <a href="{{ block.settings.url }}" class="button rewards-box__button">Shop now</a>
+              </div>
+            </div>
+            {% render 'responsive-image' with
+              image: block.settings.reward_image,
+              max_width: 1400,
+              max_height: 2000,
+              wrapper_class: 'rewards-box__image'
+            %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "2 Grid",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "grey_background",
+        "label": "Grey background?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "2 Grid"
+      }
+    ],
+    "name": "Grid images",
+      "max_blocks": 4,
+      "blocks": [
+        {
+          "type": "image",
+          "name": "Portrait image",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "reward_image",
+              "label": "Image"
+            },
+            {
+              "type": "select",
+              "id": "logo",
+              "label": "Choose logo",
+              "options": [
+                {
+                  "value": "none",
+                  "label": "None"
+                },
+                {
+                  "value": "koin-rewards",
+                  "label": "Koin Rewards"
+                },
+                {
+                  "value": "koin-premier",
+                  "label": "Koin Premier"
+                }
+              ],
+              "default": "none"
+            },
+            {
+              "type": "image_picker",
+              "id": "logo_image",
+              "label": "Logo"
+            },
+            {
+              "type": "richtext",
+              "id": "text",
+              "label": "Text"
+            },
+            {
+              "type": "url",
+              "id": "url",
+              "label": "Link"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "2 Grid",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

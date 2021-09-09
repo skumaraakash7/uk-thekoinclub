@@ -1,0 +1,98 @@
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_accent }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {% render 'head-favicons' %}
+  {% render 'head-seo-tags' %}
+  {% render 'head-social-meta-tags' %}
+  {% render 'head-tracking-tags' %}
+  {% render 'theme-strings' %}
+
+  {{ content_for_header }}
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    {% render 'critical.css' %}
+    /* Background images */
+    select {
+      background: url({{ 'icon-downward-chevron.svg' | asset_url }} ) no-repeat right;
+    }
+  </style>
+
+
+  {% render 'shogun-head' %}
+</head>
+
+<body
+  id="{{ page_title | handle }}"
+  class="template-{{ template.name | handle }} page-wrap"
+>
+
+  {% render 'body-tracking-tags' %}
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  <header class="site-header-wrapper" js-site-header="wrapper">
+    <section
+      class="site-header background-color-white"
+      data-section-id="{{ section.id }}"
+      data-section-type="site-header"
+      js-site-header="container"
+    >
+      {% section 'site-header' %}
+      {% section 'navigation-mobile' %}
+    </section>
+  </header>
+
+  {% if template == 'index' %}
+    <div class="home-slideshow">
+      {% section 'slideshow' %}
+    </div>
+  {% endif %}
+
+  <main id="MainContent" class="main-content">
+    {% if template != 'index' %}
+      <div class="breadcrumb-wrapper border-bottom border-color-light-grey">
+        <div class="page-width page-padding">
+          {% render 'breadcrumb' %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="page-width page-padding">
+      {{ content_for_layout }}
+    </div>
+    {%- section 'go-cart' -%}
+  </main>
+
+  {% section 'site-footer' %}
+
+  {{ 'theme.js' | asset_url | script_tag }}
+
+  <script src="//connect.nosto.com/include/shopify-52406419644" async></script>
+
+  <noscript id="deferred-css">
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+  </noscript>
+  <script>
+      var loadDeferredStyles = function() {
+          var addStylesNode = document.getElementById("deferred-css");
+          var replacement = document.createElement("div");
+          replacement.innerHTML = addStylesNode.textContent;
+          document.body.appendChild(replacement)
+          addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+      else window.addEventListener('load', function() { window.setTimeout(loadDeferredStyles, 0)});
+  </script>
+  <script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=TJhhdX"></script>
+<script>window.KlarnaThemeGlobals={};{%case template.name%} {%when"product"%} window.KlarnaThemeGlobals.data_purchase_amount={{product.first_available_variant.price}};window.KlarnaThemeGlobals.productVariants={{product.variants|json}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%when"cart"%} window.KlarnaThemeGlobals.data_purchase_amount={{cart.total_price}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%endcase%}</script>
+</body>
+</html>

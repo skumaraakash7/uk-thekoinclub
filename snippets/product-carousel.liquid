@@ -1,0 +1,52 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Product carousel
+  - Product carousel feed in with category
+------------------------------------------------------------------------------
+{% endcomment %}
+
+<div
+    class="featured-collection__carousel-container swiper-outer-container carousel-hide {% if section.settings.button_link != blank and section.settings.outlet_store %}no-margin-bottom{% endif %}"
+    js-carousel="outer-container"
+>
+
+    <div class="text-right swiper-buttons inline-block-wrapper">
+        <div
+            class="swiper-button-prev swiper-button-custom"
+        >
+            {% render 'icons' with icon: 'chevron round' %}
+        </div>
+        <div
+            class="swiper-button-next swiper-button-custom"
+        >
+            {% render 'icons' with icon: 'chevron round' %}
+        </div>
+    </div>
+
+    <div
+        id="FeaturedCollection-{{ section.id }}"
+        class="featured-collection__carousel swiper-container"
+    >
+
+        <ul class="swiper-wrapper">
+            {% assign card_counter = 0 %}
+            {% for product in collection.products %}
+                <li
+                class="featured-collection__slide swiper-slide"
+                >
+                    {% assign card_counter = card_counter | plus: 1 %}
+                    {% render 'product-card' with product: product, card_counter: card_counter %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="swiper-pagination"></div>
+
+    {% if section.settings.button_link != blank and section.settings.outlet_store %}
+        <div class="text-center outlet-button">
+            <a href="{{ section.settings.button_link }}" class="button">Visit Outlet</a>
+        </div>
+    {% endif %}
+
+</div>

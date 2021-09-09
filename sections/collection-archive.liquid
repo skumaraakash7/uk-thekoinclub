@@ -1,0 +1,423 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Collection archive
+  - Collection archive section
+------------------------------------------------------------------------------
+{% endcomment %}
+
+{%- assign collection_main_handle = collection.handle -%}
+
+{%- assign normal_collection = true -%}
+
+{% for block in section.blocks limit: section.blocks.size %}
+
+	{% if collection_main_handle == block.settings.collection_handle %}
+
+        {%- assign normal_collection = false -%}
+
+        <div
+            class="collections__carousel-container swiper-outer-container swiper-outer-container--collection carousel-hide"
+            js-carousel="outer-container"
+        >
+
+            <div class="text-right swiper-buttons inline-block-wrapper">
+                <div
+                    class="swiper-button-prev swiper-button-custom"
+                >
+                    {% render 'icons' with icon: 'chevron round' %}
+                </div>
+                <div
+                    class="swiper-button-next swiper-button-custom"
+                >
+                    {% render 'icons' with icon: 'chevron round' %}
+                </div>
+            </div>
+
+            <div
+                id="FeaturedCollection-{{ section.id }}"
+                class="collections__carousel swiper-container"
+            >
+              <ul class="swiper-wrapper">
+                {% assign card_counter = 0 %}
+                {% for i in (1..48) %}
+                    {% capture child %}collection-child-{{i}}{% endcapture %}
+                    {% if block.settings[child] != blank %}
+                    <li
+                    class="collections__slide swiper-slide"
+                    >
+                      {% assign card_counter = card_counter | plus: 1 %}
+                      {%- assign collection_handle = block.settings[child] -%}
+                      {% render 'collection-card' with collection: collections[collection_handle], show_title: block.settings.show_title %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div class="swiper-pagination"></div>
+
+        </div>
+
+	{% else %}
+
+    {% endif %}
+
+{% endfor %}
+
+<!-- close page-width and section -->
+</div>
+</div>
+
+{% render 'collection-archive-filters-desktop' %}
+{% render 'collection-archive-filters-mobile' %}
+
+<div
+  class="flexbox space-between collection-count-sort-by hide--t hide--d border-top border-bottom background-color-off-white border-color-light-grey color-blue"
+>
+
+  <div class="collection-sorting relative flexbox space-between">
+    <div><label for="sort">Sort</label></div>
+    <div>{% render 'icons' with icon: 'chevron' %}</div>
+    <select name="sort">
+      <option value="Name: A to Z">Name: A to Z</option>
+      <option value="Name: Z to A">Name: Z to A</option>
+      <option value="Price: Low to High">Price: Low to High</option>
+      <option value="Price: High to Low">Price: High to Low</option>
+      <option value="Best Selling">Best Selling</option>
+    </select>
+  </div>
+  <div class="collection-filtering border-left border-right border-color-light-grey">
+    <div
+        class="collection-trigger filter-trigger no-margin-bottom flexbox space-between"
+        js-mobile-nav="trigger"
+        js-mobile-menu-open="filter"
+    >
+      <div>Filter</div>
+      <div>{% render 'icons' with icon: 'filter' %}</div>
+    </div>
+  </div>
+
+  <div class="collection-mobile-filters color-blue flexbox space-between">
+    <div>
+      View
+    </div>
+    <div>
+      <div
+        class="collection-filtering__view collection-trigger collection-trigger--single inline-block"
+        js-grid-view="single"
+      >
+        {% render 'icons' with icon: 'single' %}
+      </div>
+      <div
+          class="collection-filtering__view collection-trigger collection-trigger--double is-active inline-block"
+          js-grid-view="double"
+      >
+        {% render 'icons' with icon: 'double' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- reopen page-width -->
+<div class="page-width page-padding">
+<div class="shopify-section">
+
+<div class="collection-product-count p color-grey text-center no-margin-bottom">
+  99 items found
+</div>
+
+
+<div class="collection-search flexbox">
+
+  <div class="collection">
+
+    {% paginate collection.products by 48 %}
+
+        <div class="card-grid card-grid--4up" js-grid-view="grid">
+          {% for product in collection.products %}
+              <div class="card-grid__item">
+              {% render 'product-card' with product: product %}
+              </div>
+          {% endfor %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+        {% include 'pagination' %}
+        {% endif %}
+
+    {% assign sp_paginate_by = paginate.page_size %}{% endpaginate %}
+
+  </div>
+</div>
+
+{% comment %}
+{% include 'nosto-element' with 'categorypage-nosto-2' %}
+{% endcomment %}
+
+{% if sp_paginate_by %}{% render 'spurit_po2_collection_template_snippet', paginate_by: sp_paginate_by %}{% endif %}{% schema %}
+  {
+    "name": "Collection archive",
+    "settings": [
+
+    ],
+    "blocks": [
+		  {
+      	"type": "select",
+      	"name": "Collection parent",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection_handle",
+            "label": "Choose collection parent"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_title",
+            "label": "Show collection title",
+            "default": false
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-1",
+            "label": "Collection child 1"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-2",
+            "label": "Collection child 2"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-3",
+            "label": "Collection child 3"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-4",
+            "label": "Collection child 4"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-5",
+            "label": "Collection child 5"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-6",
+            "label": "Collection child 6"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-7",
+            "label": "Collection child 7"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-8",
+            "label": "Collection child 8"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-9",
+            "label": "Collection child 9"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-10",
+            "label": "Collection child 10"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-11",
+            "label": "Collection child 11"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-12",
+            "label": "Collection child 12"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-13",
+            "label": "Collection child 13"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-14",
+            "label": "Collection child 14"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-15",
+            "label": "Collection child 15"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-16",
+            "label": "Collection child 16"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-17",
+            "label": "Collection child 17"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-18",
+            "label": "Collection child 18"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-19",
+            "label": "Collection child 19"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-20",
+            "label": "Collection child 20"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-21",
+            "label": "Collection child 21"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-22",
+            "label": "Collection child 22"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-23",
+            "label": "Collection child 23"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-24",
+            "label": "Collection child 24"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-25",
+            "label": "Collection child 25"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-26",
+            "label": "Collection child 26"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-27",
+            "label": "Collection child 27"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-28",
+            "label": "Collection child 28"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-29",
+            "label": "Collection child 29"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-30",
+            "label": "Collection child 30"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-31",
+            "label": "Collection child 31"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-32",
+            "label": "Collection child 32"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-33",
+            "label": "Collection child 33"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-34",
+            "label": "Collection child 34"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-35",
+            "label": "Collection child 35"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-36",
+            "label": "Collection child 36"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-37",
+            "label": "Collection child 37"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-38",
+            "label": "Collection child 38"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-39",
+            "label": "Collection child 39"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-40",
+            "label": "Collection child 40"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-41",
+            "label": "Collection child 41"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-42",
+            "label": "Collection child 42"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-43",
+            "label": "Collection child 43"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-44",
+            "label": "Collection child 44"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-45",
+            "label": "Collection child 45"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-46",
+            "label": "Collection child 46"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-47",
+            "label": "Collection child 47"
+          },
+          {
+            "type": "collection",
+            "id": "collection-child-48",
+            "label": "Collection child 48"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

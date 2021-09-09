@@ -1,0 +1,16 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Wishlist button
+  - Wishlist app button
+------------------------------------------------------------------------------
+{% endcomment %}
+{% render 'swym-product-view', product: product %}
+<button
+  class="product-card__wishlist-button swym-button swym-add-to-wishlist-view-product product_{{product.id}}"
+  data-swaction="addToWishlist"
+  data-product-id="{{ id }}"
+  data-product-url="{{ product.url }}"
+>
+  {% render 'icons' with icon: 'favourite-circle' %}
+  {% render 'icons' with icon: 'favourite-sans-circle' %}
+</button>

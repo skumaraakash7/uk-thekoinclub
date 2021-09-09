@@ -1,0 +1,20 @@
+{% comment %}
+  <div class="pagination flexbox">
+      <a class="pagination__button pagination__next {% unless paginate.previous.is_link %}disabled-button{% endunless %}" href="{{ paginate.previous.url }}">
+        {% render 'icons' with icon: 'chevron' %}
+      </a>
+    <div class="p text-center pagination__count no-margin-bottom">{{ paginate.current_page }}/{{ paginate.items }}</div>
+
+      <a class="pagination__button pagination__previous {% unless paginate.next.is_link %}disabled-button{% endunless %}" href="{{ paginate.next.url }}">
+        {% render 'icons' with icon: 'chevron' %}
+      </a>
+  </div>
+{% endcomment %}
+
+<div class="pagination text-center">
+
+  <div class="p pagination__count">You've viewed 72 of 2,869 products</div>
+
+  <button class="button button--blue">Load more</div>
+
+</div>

@@ -1,0 +1,73 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Product card mini
+  - Uses the card component as the base
+------------------------------------------------------------------------------
+{% endcomment %}
+<li
+  class="product-card-mini card-grid__item"
+>
+  <div
+    class="product-card-mini__link relative"
+  >
+    <a
+      class="product-card-mini__link-inner block relative"
+      href="{{ product.url | within: collection }}"
+    >
+      {% if product.featured_image != blank or empty_template %}
+
+        <div class="product-card-mini__thumbnail-container relative">
+
+          {% render 'responsive-image' with
+            image: product.featured_image,
+            max_width: 400,
+            max_height: 400,
+            wrapper_class: 'product-card-mini__thumbnail'
+          %}
+
+        </div>
+      {% endif %}
+    </a>
+  </div>
+
+  <div class="product-card-mini__footer">
+    {% assign badge_text = '' %}
+    {% assign badge_border = 'blue' %}
+    {% for tag in product.tags %}
+      {% if tag contains 'BADGE' %}
+        {% assign badge_text = tag | remove: "BADGE: " %}
+        {% if badge_text == 'Silver plated' %}
+          {% assign badge_border = 'green' %}
+        {% elsif badge_text == 'Gold plated' %}
+          {% assign badge_border = 'red' %}
+        {% else %}
+          {% assign badge_border = 'yellow' %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {% if badge_text != blank or product.type != blank  %}
+      <div class="small caps border-left border-color-{{ badge_border }} product-card__purchase-type">
+        {% if badge_text != blank %}
+          {{ badge_text }}
+        {% else %}
+          {{ product.type }}
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="small caps product-card__purchase-type">
+        &nbsp;
+      </div>
+    {% endif %}
+    <a
+      class="product-card__link-text"
+      href="{{ product.url | within: collection }}"
+    >
+      <h3 class="h6 product-card__title">
+        {{ product.title }}
+      </h3>
+    </a>
+    {% render 'product-price' with product: product %}
+  </div>
+
+</li>

@@ -1,0 +1,16 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: ReBuy script mini
+------------------------------------------------------------------------------
+{% endcomment %}
+<ul class="also-bought__list list-style-none flexbox--t flex-wrap-wrap space-between">
+    <li
+        class="product-card-mini background-color-light-grey flexbox space-between"
+        v-for="(product, index) in products"
+        v-bind:class="[product.handle, 'product-id-' + product.id, cartHasProduct(product) ? 'cart-has-item' : '', productTagClasses(product)]"
+    >
+
+        {% render 'product-card-rebuy-mini' %}
+
+    </li>
+</ul>

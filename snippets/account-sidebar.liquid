@@ -1,0 +1,45 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Account side bar
+  - To navigate the account pages
+----------------------------------------------------------------------------
+{% endcomment %}
+{% if customer %}
+    <div class="account-area__sidebar border-color-light-grey border">
+        <div class="account-area__sidebar-padding">
+            <div class="account-area__name-wrap flexbox">
+            <div class="account-area__initials background-color-navy color-white caps bold text-center">
+                {{ customer.name | split: " " | first | slice: 0 }}
+                {{ customer.name | split: " " | last | slice: 0 }}
+            </div>
+            <h5 class="account-area__name h5 bold color-navy no-margin-bottom">{{ customer.name }}</h5>
+            </div>
+            <ul class="account-area__navigation account-links h5 color-grey list-style-none">
+                {% for link in linklists.account.links %}
+                    <li class="{% if link.active %}current-menu-item{% endif %}">
+                        <a
+                            href="{{ link.url }}"
+                        >
+                            {{ link.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+                <li class="menu-item-last">
+                    {{ 'layout.customer.log_out' | t | customer_logout_link }}
+                </li>
+            </ul>
+        </div>
+        <hr class="border-color-light-grey">
+        <div class="account-area__sidebar-padding">
+            <h5 class="h5 color-grey" href="/account/addresses">{{ 'customer.account.details' | t }} - <a class="h5 color-blue account-details-link" href="/account/addresses">{{ 'customer.addresses.edit' | t }}</a></h5>
+            <div class="color-grey">
+                {{ customer.default_address | format_address }}
+                <p class="address-phone"><strong>Phone: </strong>{{ customer.default_address.phone }}</p>
+
+                {% comment %}
+                <a class="button button--small edit-details-button" href="/account/addresses/#change-addresses">{{ 'customer.addresses.edit' | t }}</a>
+                {% endcomment %}
+            </div>
+        </div>
+    </div>
+{% endif%}

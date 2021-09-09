@@ -1,0 +1,83 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Product price
+  - Used on the product card and in the product form.
+----------------------------------------------------------------------------
+{% endcomment %}
+<div class="product-price no-margin-bottom" js-recommended-products="productPrices" data-price-wrapper>
+
+  {% if product.compare_at_price > product.price %}
+    <span class="visually-hidden">
+      {{ 'products.product.regular_price' | t }}
+    </span>
+
+    <s
+      data-price="{{ product.compare_at_price }}"
+      js-currency="price"
+      class="product-price__sale-price h4 bold"
+    >
+      {{ product.compare_at_price | money }}
+    </s>
+    &nbsp;
+    {% if product.price_varies %}
+      {% assign price = product.price | money %}
+
+      {{ 'products.product.from_text_html' | t }}
+      <span
+        js-product-form="price"
+        js-currency="price"
+        class="color-red bold h3"
+        data-price="{{ product.price }}"
+      >
+        {{ product.price | money }}
+      </span>
+
+    {% else %}
+      <span
+        js-product-form="price"
+        js-currency="price"
+        class="color-red bold {% if template.name == 'product' %}h3{% else %}h4{% endif %}"
+        data-price="{{ product.price }}"
+      >
+        {{ product.price | money }}
+      </span>
+    {% endif %}
+
+    {% if template.name == 'product' %}
+      <span class="product-price__sale-discount bold">
+        {% assign discount = product.price | minus: product.compare_at_price %}
+        ({{ discount | times: -100.00 | divided_by: product.compare_at_price | round }}% {{ 'products.product.saving' | t }})
+      </span>
+    {% endif %}
+
+  {% else %}
+    {% if product.price_varies %}
+      {% assign price = product.price | money %}
+
+      {{ 'products.product.from_text_html' | t }}
+      <span
+        js-product-form="price"
+        js-currency="price"
+        data-price="{{ product.price }}"
+        class="h4 bold"
+      >
+        {{ product.price | money }}
+      </span>
+
+    {% else %}
+      <span
+        js-product-form="price"
+        js-currency="price"
+        data-price="{{ product.price }}"
+        class="h4 bold"
+      >
+        {{ product.price | money }}
+      </span>
+    {% endif %}
+  {% endif %}
+
+  {% unless product.available %}
+    {{ 'products.product.sold_out' | t }}
+  {% endunless %}
+
+</div>

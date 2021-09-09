@@ -1,0 +1,78 @@
+<div class="page-width">
+  <div class="login-page-width">
+    <div class="returning-customers new-customers">
+      <h1 class="h3 color-navy">{{ 'customer.register.title' | t }}</h1>
+
+        <p class="small color-grey">Sign up and you’ll be able to manage your account, track orders, save products and access easier returns</p>
+
+        {% form 'create_customer' %}
+        {{ form.errors | default_errors }}
+
+        <label for="Email" class="color-navy bold">
+          {{ 'customer.register.email' | t }}*
+        </label>
+        <input type="email"
+          name="customer[email]"
+          id="Email"
+          class="register-form__input {% if form.errors contains 'email' %}input-error{% endif %}"
+          placeholder="{{ 'customer.register.email' | t }}"
+          value="{% if form.email %}{{ form.email }}{% endif %}"
+          spellcheck="false"
+          autocomplete="off"
+          autocapitalize="off">
+
+        <label for="CreatePassword" class="color-navy bold">
+          {{ 'customer.register.password' | t }}*
+        </label>
+        <input type="password"
+          name="customer[password]"
+          id="CreatePassword"
+          class="register-form__input register-form__password-input {% if form.errors contains 'password' %}input-error{% endif %}"
+          placeholder="{{ 'customer.register.password' | t }}">
+
+        <label for="CreatePassword" class="color-navy bold">
+          Date of birth
+        </label>
+
+        <input
+          class="register-form__input block"
+          type="date"
+          name="customer[note][Date of birth]"
+        />
+
+        <label for="FirstName" class="color-navy bold">
+          {{ 'customer.register.first_name' | t }}*
+        </label>
+        <input type="text"
+          name="customer[first_name]"
+          id="FirstName"
+          class="register-form__input"
+          placeholder="{{ 'customer.register.first_name' | t }}"
+          {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
+
+        <label for="LastName" class="color-navy bold">
+          {{ 'customer.register.last_name' | t }}*
+        </label>
+        <input type="text"
+          name="customer[last_name]"
+          id="LastName"
+          class="register-form__input"
+          placeholder="{{ 'customer.register.last_name' | t }}"
+          {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+        >
+
+        <div class="register-opt-in">
+          <input type="checkbox" checked id="marketing-email" name="customer[accepts_marketing]"><span class="small color-grey">I wish to receive the latest news and exclusive discounts by receiving The coin Club Marketing emails</span>
+        </div>
+
+        <p class="small color-grey no-margin-bottom">By creating your account, you agree to our <a href="/pages/terms-and-conditions" class="bold underline-none">Terms and Conditions</a>. For full details on how and why The Koin Club uses your personal data please see our <a href="/pages/privacy-policy" class="bold underline-none">Privacy Notice</a>.</p>
+
+        <input type="submit" value="{{ 'customer.register.submit' | t }}" class="button button--wide">
+
+        <p class="small text-center color-grey">Already Registered? <a class="color-blue underline" href="/account/login">Sign Into Your Account</a></p>
+
+      {% endform %}
+    </div>
+
+  </div>
+</div>

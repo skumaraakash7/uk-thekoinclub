@@ -1,0 +1,23 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Max order
+------------------------------------------------------------------------------
+{% endcomment %}
+console.log('max-order.liquid');
+let maxedOutItems = [];
+{% assign i = 0 %}
+{% for item in cart.items %}
+    {% for tag in item.product.tags %}
+        {% if tag contains 'MAX ORDER:' %}
+            {% assign max_order = tag | split: ': ' %}
+            {% assign max_order = max_order[1] | plus: 0 %}
+            console.log('max_order of {{ max_order }}');
+            {% if item.quantity >= max_order %}
+                console.log('restrict index: {{ i }}');
+                maxedOutItems.push({{ i }});
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% assign i = i | plus: 1 %}
+{% endfor %}
+console.log('maxedOutItems', maxedOutItems);

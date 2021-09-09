@@ -1,0 +1,101 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Site tracking codes for head
+  - Tracking codes
+------------------------------------------------------------------------------
+{% endcomment %}
+
+{% comment %}
+------------------------------------------------------------------------------
+Klaviyo
+------------------------------------------------------------------------------
+{% endcomment %}
+
+<script type="application/javascript" async
+ src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=TJhhdX"></script>
+
+{% comment %}
+------------------------------------------------------------------------------
+Google Tag Manager, Google Analytics and Google Merchants
+------------------------------------------------------------------------------
+{% endcomment %}
+
+{% case this_shop %}
+{% when 'koin-uk.myshopify.com' %}
+   {%- assign shop_ID = 'UA-191681170-1' -%}
+   {%- assign shop_ID_GA4 = 'G-2H0DD35P34' -%}
+{% when 'koin-eu.myshopify.com' %}
+   {%- assign shop_ID = 'UA-191681170-11' -%}
+   {%- assign shop_ID_GA4 = 'G-81LC63PY4H' -%}
+{% else %}
+   {%- assign shop_ID = 'UA-191681170-12' -%}
+   {%- assign shop_ID_GA4 = 'G-QV54K6PW99' -%}
+{% endcase %}
+
+<!-- Google GA4 -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ shop_ID_GA4 }}">
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ shop_ID_GA4 }}');
+</script>
+<!-- end of Google GA4 -->
+
+<!-- Google Merchants -->
+<meta name="google-site-verification" content="7s3sEE3q5f1qpPedtBZgs68HqcqRCnsQHitSlsYLpwQ" />
+
+{% comment %}
+------------------------------------------------------------------------------
+Facebook Pixel
+------------------------------------------------------------------------------
+{% endcomment %}
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1133580803373675');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1133580803373675&ev=PageView&noscript=1"/></noscript>
+<!-- End Facebook Pixel Code -->
+
+<!-- Facebook verification -->
+<meta name="facebook-domain-verification" content="mwxdx7fo05sp0zqczcql9w5g122y8m" />
+<!-- End Facebook verification -->
+
+
+{% comment %}
+------------------------------------------------------------------------------
+VWO for AB testing
+------------------------------------------------------------------------------
+{% endcomment %}
+
+{%- if shop.permanent_domain == 'koin-uk.myshopify.com' -%}
+
+<!-- Start VWO Async SmartCode -->
+<script type='text/javascript'>
+window._vwo_code = window._vwo_code || (function(){
+var account_id=286601,
+settings_tolerance=2000,
+library_tolerance=2500,
+use_existing_jquery=false,
+is_spa=1,
+hide_element='body',
+
+/* DO NOT EDIT BELOW THIS LINE */
+f=false,d=document,code={use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){
+window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tolerance);var a=d.createElement('style'),b=hide_element?hide_element+'{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}':'',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&f='+(+is_spa)+'&r='+Math.random());return settings_timer; }};window._vwo_settings_timer = code.init(); return code; }());
+</script>
+<!-- End VWO Async SmartCode -->
+
+{%- endif -%}

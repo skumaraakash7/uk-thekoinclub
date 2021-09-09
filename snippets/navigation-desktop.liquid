@@ -1,0 +1,139 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Desktop navigation
+----------------------------------------------------------------------------
+{% endcomment %}
+<div class="site-header__navigation navigation background-color-blue color-white border-top">
+  <div class="page-width page-padding relative">
+    {% if section.blocks.size > 0 %}
+      <ul class="navigation__tabs list-style-none no-margin flexbox">
+        {% for block in section.blocks %}
+          <li
+            class="navigation__tab"
+            js-header-nav="tab"
+          >
+            {% if block.settings.main_link != blank %}
+              <a
+                class="navigation__tab-title p no-margin-bottom block text-center"
+                style="background-color: {{ block.settings.background_color }}"
+                js-header-nav="tab-title"
+                href="{{ block.settings.main_link }}"
+              >
+                {{ block.settings.title }}
+              </a>
+            {% else %}
+              <div
+                class="navigation__tab-title p no-margin-bottom text-center"
+                style="background-color: {{ block.settings.background_color }}"
+                js-header-nav="tab-title"
+              >
+                {{ block.settings.title }}
+              </div>
+            {% endif %}
+            <div
+              class="navigation__tab-content critical-hide"
+              js-header-nav="tab-content"
+            >
+              <div class="navigation__tab-content-inner background-color-white page-padding shadow-dropdown page-width">
+
+                {% assign link_list_count = 0 %}
+                {% if block.settings.link_list_type_1 != 'off' %}
+                  {% assign link_list_count = link_list_count | plus: 1 %}
+                {% endif %}
+                {% if block.settings.link_list_type_2 != 'off' %}
+                  {% assign link_list_count = link_list_count | plus: 1 %}
+                {% endif %}
+                {% if block.settings.link_list_type_3 != 'off' %}
+                  {% assign link_list_count = link_list_count | plus: 1 %}
+                {% endif %}
+                {% if block.settings.link_list_type_4 != 'off' %}
+                  {% assign link_list_count = link_list_count | plus: 1 %}
+                {% endif %}
+
+                <ul class="no-margin list-style-none flexbox align-items-stretch navigation__link-list-of-{{ link_list_count }}">
+
+                  {% for i in (1..link_list_count) %}
+
+                    {% capture title %}link_list_{{i}}_title{% endcapture %}
+                    {% capture link_list %}link_list_{{i}}{% endcapture %}
+                    {% capture link_type %}link_list_type_{{i}}{% endcapture %}
+                    {% capture featured_collection_a %}featured_collection_{{i}}a{% endcapture %}
+                    {% capture featured_collection_image_caption_a %}featured_collection_image_caption_{{i}}a{% endcapture %}
+                    {% capture featured_collection_image_caption_color_a %}featured_collection_image_caption_color_{{i}}a{% endcapture %}
+                    {% capture featured_collection_image_a %}featured_collection_image_{{i}}a{% endcapture %}
+                    {% capture featured_collection_b %}featured_collection_{{i}}b{% endcapture %}
+                    {% capture featured_collection_image_caption_b %}featured_collection_image_caption_{{i}}b{% endcapture %}
+                    {% capture featured_collection_image_caption_color_b %}featured_collection_image_caption_color_{{i}}b{% endcapture %}
+                    {% capture featured_collection_image_b %}featured_collection_image_{{i}}b{% endcapture %}
+
+                    <li
+                      class="
+                      navigation__nav-block
+                      navigation__nav-block--{{i}}
+                      {% if forloop.last == false %}border-right
+                      {% else %}no-right-margin{% endif %}
+                      nav-type-{{ block.settings[link_type] }}
+                      nav-width-normal
+                      {% if block.settings[featured_collection_a] != blank and featured_collection_image_b != blank %}
+                      featured-collection-image-here
+                      {% else %}
+                      no-featured-collection-image-here
+                      {% endif %}
+                      "
+                    >
+
+                      {% if block.settings[title] != '' %}
+                        <h6 class="bold color-black navigation__nav-block-title">{{ block.settings[title] }}</h6>
+                      {% endif %}
+
+                      <!-- link_list_1 -->
+                      {% if block.settings[link_list] != '' %}
+
+                        {% assign this_link_type = block.settings[link_type] %}
+                        {% assign this_link_list = block.settings[link_list] %}
+                        {% render 'header-nav-list', this_link_list: this_link_list, this_link_type: this_link_type %}
+
+                      {% endif %}
+
+                      <!-- featured_collection_1a -->
+                      {% if block.settings[featured_collection_a] != blank %}
+
+                        {% assign this_collection = block.settings[featured_collection_a] %}
+                        {% assign this_image = block.settings[featured_collection_image_a] %}
+                        {% assign this_caption = block.settings[featured_collection_image_caption_a] %}
+                        {% assign this_caption_color = block.settings[featured_collection_image_caption_color_a] %}
+
+                        <div class="header-collection-image header-collection-image--a">
+                          {% render 'header-collection-image', this_image: this_image, this_collection: this_collection, this_caption: this_caption, this_caption_color: this_caption_color %}
+                        </div>
+
+                      {% endif %}
+                      <!-- end featured_collection_1a -->
+
+                      <!-- featured_collection_1b -->
+                      {% if block.settings[featured_collection_b] != blank %}
+
+                        {% assign this_collection = block.settings[featured_collection_b] %}
+                        {% assign this_image = block.settings[featured_collection_image_b] %}
+                        {% assign this_caption = block.settings[featured_collection_image_caption_b] %}
+                        {% assign this_caption_color = block.settings[featured_collection_image_caption_color_b] %}
+
+                        <div class="header-collection-image header-collection-image--b">
+                          {% render 'header-collection-image', this_image: this_image, this_collection: this_collection, this_caption: this_caption, this_caption_color: this_caption_color %}
+                        </div>
+
+                      {% endif %}
+                      <!-- end featured_collection_1b -->
+
+                    </li>
+
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,15 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Wishlist button ReBuy
+  - Wishlist app button for ReBuy
+------------------------------------------------------------------------------
+{% endcomment %}
+{% render 'swym-product-view', product: product %}
+<button
+    class="product-card__wishlist-button"
+    data-swaction="addToWishlist"
+    v-bind:data-product-id="product.selected_variant.id"
+>
+    {% render 'icons' with icon: 'favourite-circle' %}
+    {% render 'icons' with icon: 'favourite-sans-circle' %}
+</button>

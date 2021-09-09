@@ -1,0 +1,31 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Free shipping
+  - https://help.shopify.com/en/themes/customization/navigation/add-breadcrumb
+  - HTML entities: https://dev.w3.org/html5/html-author/charref
+------------------------------------------------------------------------------
+{% endcomment %}
+<div class="go-cart-drawer__free-shipping border-bottom border-color-light-grey">
+    <div class="shipping-progress">
+        <p
+            class="shipping-progress__nearly p color-blue caps bold"
+            js-free-shipping="nearly"
+        >
+            {{ settings.free_shipping_encouragement }}
+            <span js-free-shipping="price-left">{{ settings.free_shipping_threshold_value | money }}</span>
+            {{ settings.free_shipping_encouragement_end }}
+        </p>
+        <p
+            class="shipping-progress__nearly p color-green caps bold hide"
+            js-free-shipping="congratulations"
+        >
+            {% render 'icons' with icon: 'tick-circle' %} {{ settings.free_shipping_congrats }}
+        </p>
+        <div class="shipping-progress__bar background-color-light-grey relative">
+            <div
+                class="shipping-progress__progress background-color-blue"
+                js-free-shipping="progress"
+            ></div>
+        </div>
+    </div>
+</div>

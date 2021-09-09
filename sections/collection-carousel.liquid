@@ -1,0 +1,99 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Collection carousel
+  - A carousel of specific collections
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="vertical-padding vertical-padding--section collection-carousel {% if section.settings.grey_background %}collection-carousel--with-background background-color-off-white{% endif %}">
+  <div class="page-width page-padding">
+    {%- if section.settings.title != blank -%}
+      <h3 class="color-navy h3 carousel-title">{{ section.settings.title | escape }}</h3>
+    {%- endif -%}
+
+    <div
+        class="collections__carousel-container swiper-outer-container swiper-outer-container--brands carousel-hide"
+        js-carousel="outer-container"
+    >
+
+        <div class="text-right swiper-buttons inline-block-wrapper">
+            <div
+                class="swiper-button-prev swiper-button-custom"
+            >
+                {% render 'icons' with icon: 'chevron round' %}
+            </div>
+            <div
+                class="swiper-button-next swiper-button-custom"
+            >
+                {% render 'icons' with icon: 'chevron round' %}
+            </div>
+        </div>
+
+        <div
+            id="FeaturedCollection-{{ section.id }}"
+            class="collections__carousel swiper-container swiper-container--brands"
+        >
+            <ul class="swiper-wrapper">
+                {% assign card_counter = 0 %}
+                {% for block in section.blocks limit: section.blocks.size %}
+                    {% if block.settings.collection != blank %}
+                        <li
+                            class="collections__slide swiper-slide"
+                        >
+                            {% assign card_counter = card_counter | plus: 1 %}
+
+                            {% render 'collection-card' with collection: collections[block.settings.collection], show_title: section.settings.show_title %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="swiper-pagination"></div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Brands carousel",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "grey_background",
+        "label": "Grey background?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Brands"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show title",
+        "default": false
+      }
+    ],
+      "name": "Collections",
+      "blocks": [
+        {
+          "type": "collection",
+          "name": "Collection",
+          "settings": [
+            {
+                "type": "collection",
+                "id": "collection",
+                "label": "Collection"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "Brands carousel",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

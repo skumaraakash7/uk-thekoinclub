@@ -1,0 +1,16 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: New customer reasons
+------------------------------------------------------------------------------
+{% endcomment %}
+<h1 class="h3">{{ 'customer.login.new_customers' | t }}</h1>
+
+<p class="new-customers__text">{{ 'customer.login.new_customers_text' | t }}</p>
+
+<ul class="new-customers__list flexbox flex-wrap-wrap list-style-none">
+    <li class="new-customers__list-item flexbox">{% render 'icons' with icon: 'faster checkout' %}<h6 class="bold">Faster checkout</h6></li>
+    <li class="new-customers__list-item flexbox">{% render 'icons' with icon: 'account' %}<h6 class="bold">Manage account</h6></li>
+    <li class="new-customers__list-item flexbox">{% render 'icons' with icon: 'track orders' %}<h6 class="bold">Track orders</h6></li>
+    <li class="new-customers__list-item flexbox">{% render 'icons' with icon: 'search' %}<h6 class="bold">Order history</h6></li>
+    <li class="new-customers__list-item flexbox">{% render 'icons' with icon: 'manage subscription' %}<h6 class="bold">Manage subscriptions</h6></li>
+</ul>

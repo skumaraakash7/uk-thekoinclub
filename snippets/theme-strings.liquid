@@ -1,0 +1,28 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Theme strings
+  - Assign global variables for use in JavaScript.
+----------------------------------------------------------------------------
+{% endcomment %}
+<script>
+	document.documentElement.className = document.documentElement.className.replace(
+		'no-js',
+		'supports-js',
+	);
+	window.theme = {
+		strings: {
+			addToCart: {{ 'products.product.add_to_cart' | t | json }},
+			soldOut: {{ 'products.product.sold_out' | t | json }},
+			unavailable: {{ 'products.product.unavailable' | t | json }}
+		},
+		freeShipping: {
+			messages: {
+				nearly: {{ 'cart.free_shipping.nearly' | t | json }}
+			},
+			threshold: {{ settings.free_shipping_threshold_value }}
+		},
+		moneyFormat: {{ shop.money_format | json }},
+    	pageUrl: '{{ request.path }}',
+    	pageType: {{ request.page_type | json }}
+	};
+</script>

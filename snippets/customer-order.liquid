@@ -1,0 +1,170 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Customer order
+------------------------------------------------------------------------------
+{% endcomment %}
+<div class="order border border-color-light-grey">
+
+    <div class="order__header border-bottom border-color-light-grey background-color-off-white">
+
+        <div class="order__padding order__header-inner flexbox space-between {% if type != 'details' %}flex-wrap-wrap order__header-inner--archive{% endif %}">
+
+            <h6>
+                <span class="color-grey">{{ 'customer.orders.fulfillment_status' | t }}</span><br>
+                <strong data-label="{{ 'customer.orders.fulfillment_status' | t }}">
+                    {{ order.fulfillment_status_label }}
+                </strong>
+            </h6>
+
+            <h6>
+                <span class="color-grey">{{ 'customer.orders.date' | t }}</span><br>
+                <strong data-label="{{ 'customer.orders.date' | t }}">
+                    {{ order.created_at | date: format: 'month_day_year' }}
+                </strong>
+            </h6>
+
+            {% if type == 'details' %}
+                <h6>
+                    <span class="color-grey">{{ 'customer.order.tax' | t }}</span><br>
+                    {% for tax_line in order.tax_lines %}
+                        <strong data-label="{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)">{{ tax_line.price | money }}</strong>
+                    {% endfor %}
+                </h6>
+            {% endif %}
+
+            <h6 class="total">
+                <span class="color-grey">{{ 'customer.orders.total' | t }}</span><br>
+                <strong data-label="{{ 'customer.orders.total' | t }}">
+                    {{ order.total_price | money }}
+                </strong>
+            </h6>
+
+            {% if type == 'archive' %}
+                <h6 class="order-number">
+                    <span class="color-grey">{{ 'customer.orders.order_number' | t }}</span><br>
+                    <strong data-label="{{ 'customer.orders.order_number' | t }}">
+                        {{ order.name | link_to: order.customer_url }}
+                    </strong>
+                </h6>
+            {% endif %}
+
+            {% if type == 'archive' %}
+                <a
+                    class="color-blue"
+                    href="{{ order.customer_url }}"
+                >
+                    {{ 'customer.order.details' | t }}
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <div class="order__padding order__line-items">
+
+        {% for line_item in order.line_items %}
+
+            {% assign card_counter = card_counter | plus: 1 %}
+
+            <div class="line-item flexbox flex-wrap-wrap--m">
+
+                <div class="line-item__image">
+                    <a
+                        class="line-item__image-link block relative"
+                        href="{{ line_item.product.url }}"
+                    >
+                        {% render 'responsive-image' with
+                            image: line_item.product.featured_image,
+                            max_width: 700,
+                            max_height: 800,
+                            wrapper_class: 'product-card__thumbnail line-item__image-thumbnail'
+                        %}
+
+                        {% render 'responsive-image' with
+                            image: line_item.product.images[1],
+                            max_width: 700,
+                            max_height: 800,
+                            wrapper_class: 'product-card__thumbnail--hover line-item__image-thumbnail--hover'
+                        %}
+                    </a>
+                </div>
+
+                <div class="line-item__details">
+                    <h6 class="h6 grey line-item__details-title">{{ line_item.title | link_to: line_item.product.url }}
+                    {% if line_item.product.type == 'Subscription' %}
+                        - {{ 'products.product.subscription' | t }}
+                    {% endif %}
+                    </h6>
+
+                    <h6 class="h6 grey line-item__details-quantity">{{ 'customer.order.quantity' | t }}: {{ line_item.quantity }} <strong>{{ line_item.quantity | times: line_item.price | money }}</strong></h6>
+
+                    {%- if line_item.product.variants.first.available -%}
+
+                        <a
+                            href="/cart/add?id={{ line_item.product.variants.first.id }}&amp;quantity=1"
+                            class="button button--small  button--blue button--with-icon product-form-cart-submit product-card__button--{{ line_item.product.type }}"
+                            js-cart="add"
+                        >
+                            <span class="button__preloading">{% render 'icons' with icon: 'free-returns' %}</span>
+                            <span class="button__preloading">{{- 'customer.order.reorder' | t -}}</span>
+                            <span class="button__loading">
+                            {% render 'icons' with icon: 'free-returns' %}
+                            </span>
+                        </a>
+
+                    {%- endif -%}
+
+                </div>
+
+                <div class="line-item__actions">
+
+                    {% if line_item.fulfillment %}
+                        {% if line_item.fulfillment.tracking_url != blank %}
+                            <a
+                                class="button button--teal button--small"
+                                href="{{ line_item.fulfillment.tracking_url }}"
+                                target="_blank"
+                            >
+                                {{ 'customer.order.track_shipment' | t }}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if line_item.product.type == 'Subscription' %}
+                        <a
+                            class="button button--teal button--small"
+                            href="/tools/recurring/login"
+                            target="_blank"
+                        >
+                            {{ 'customer.order.manage_subscription' | t }}
+                        </a>
+                    {% endif %}
+
+                    {% if  order.fulfillment_status_label == 'Fulfilled' %}
+
+                        <a
+                            class="button button--teal button--small"
+                            href="https://returns.thekoinclub.com/"
+                            target="_blank"
+                        >
+                            {{ 'customer.order.return' | t }}
+                        </a>
+                    {% else %}
+                        {% comment %}
+                        <a
+                            class="button"
+                            href="https://koinclub.helpdocs.io/article/m5l3289ufd-can-i-amend-an-order-once-ive-placed-it"
+                            target="_blank"
+                        >
+                            {{ 'customer.order.cancel' | t }}
+                        </a>
+                        {% endcomment %}
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+    </div>
+</div>

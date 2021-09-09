@@ -1,0 +1,49 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Full width banner
+------------------------------------------------------------------------------
+{% endcomment %}
+<!-- close .shopify-section and .page-width .page-padding -->
+</div>
+</div>
+<section class="vertical-padding vertical-padding--small full-width-banner">
+  <div class="relative">
+    {% if section.settings.url %}
+        <a href="{{ section.settings.url }}" class="block full-width-banner__link">
+    {% endif %}
+            {% render 'responsive-image' with
+                image: section.settings.banner,
+                max_width: 1920,
+                max_height: 1920,
+                wrapper_class: 'full-width-banner__image'
+            %}
+    {% if section.settings.url %}
+        </a>
+    {% endif %}
+  </div>
+</section>
+<!-- reopen shopify-section and .page-width .page-padding -->
+<div class="page-width page-padding">
+<div>
+
+{% schema %}
+  {
+    "name": "Banner",
+    "settings": [
+      {
+        "type": "url",
+        "id": "url",
+        "label": "Link"
+      },
+      {
+          "type": "image_picker",
+          "id": "banner",
+          "label": "Banner image"
+      }
+    ],
+    "presets": [{
+        "name": "Full width banner",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

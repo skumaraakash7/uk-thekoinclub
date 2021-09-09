@@ -1,0 +1,38 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Customer order head
+------------------------------------------------------------------------------
+{% endcomment %}
+<div class="order__header border-bottom border-color-light-grey background-color-off-white">
+
+    <div class="order__padding order__header-inner flexbox space-between">
+
+        <h6>
+            <span class="color-grey">{{ 'customer.orders.fulfillment_status' | t }}</span><br>
+            <strong data-label="{{ 'customer.orders.fulfillment_status' | t }}">
+                {{ order.fulfillment_status_label }}
+            </strong>
+        </h6>
+
+        <h6>
+            {{ 'customer.orders.total' | t }}<br>
+            <strong data-label="{{ 'customer.orders.total' | t }}">
+                {{ order.total_price | money }}
+            </strong>
+        </h6>
+
+        <h6>
+            {{ 'customer.orders.order_number' | t }}<br>
+            <strong data-label="{{ 'customer.orders.order_number' | t }}">
+                {{ order.name | link_to: order.customer_url }}
+            </strong>
+        </h6>
+
+        <h6>
+            {{ 'customer.orders.date' | t }}<br>
+            <strong data-label="{{ 'customer.orders.date' | t }}">
+                {{ order.created_at | date: format: 'month_day_year' }}
+            </strong>
+        </h6>
+    </div>
+</div>

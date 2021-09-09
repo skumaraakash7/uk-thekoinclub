@@ -1,0 +1,14 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Product stock
+  - To get the amount of stock
+----------------------------------------------------------------------------
+if current_variant.inventory_management == "shopify" and current_variant.inventory_policy != "continue"
+{% endcomment %}
+{% if product.variants[0].inventory_quantity <= 0 %}
+    <span class="background-color-yellow dot inline-block"></span><span class="h6 in-stock-message">{{ 'products.product.sold_out' | t }}</span>
+{% elsif product.variants[0].inventory_quantity < 10 %}
+    <span class="background-color-green dot inline-block"></span><span class="h6 in-stock-message">{{ 'products.product.only' | t }} {{ product.variants[0].inventory_quantity }} {{ 'products.product.left_in_stock' | t }}.</span>
+{% else %}
+    <span class="background-color-green dot inline-block"></span><span class="h6 in-stock-message">{{ 'products.product.in_stock' | t }}</span>
+{% endif %}

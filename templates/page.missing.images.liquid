@@ -1,0 +1,27 @@
+<div class="vertical-padding page-width page-width--small">
+  <h1 class="standard-page-title">Products with missing images</h1>
+
+    all:
+    {%- assign collection = collections['all'] -%}
+
+    {% paginate collection.products by 1000 %}
+
+        {% for product in collection.products %}
+
+            .
+
+            {% if product.featured_image != blank or empty_template %}
+
+            {% else %}
+                <a
+                    href="{{ product.url | within: collection }}"
+                >
+                    <br>{{ product.title }}<br>
+                </a>
+            {% endif %}
+
+        {% endfor %}
+
+    {% endpaginate %}
+
+</div>

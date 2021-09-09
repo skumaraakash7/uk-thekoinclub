@@ -1,0 +1,85 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: 3 Grid
+  - 3 grid section of lifestyle images
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="vertical-padding vertical-padding--section portrait-row {% if section.settings.grey_background %}vertical-padding--with-background background-color-off-white{% endif %}">
+  <div class="page-width page-padding">
+    {%- if section.settings.title != blank -%}
+      <h2>{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+    <div class="portrait-row__wrap flexbox space-between">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <div class="portrait-item relative">
+            <div class="portrait-item__text text-center">
+              <h4 class="h2 portrait-item__title {% if block.settings.white %}color-white{% endif %}">{{ block.settings.title }}</h4>
+              <a href="{{ block.settings.url }}" class="button portrait-item__button">Shop now</a>
+            </div>
+            {% render 'responsive-image' with
+              image: block.settings.portrait_image,
+              max_width: 1400,
+              max_height: 2000,
+              wrapper_class: 'portrait-item__image'
+            %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Portrait row",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "grey_background",
+        "label": "Grey background?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Portrait row"
+      }
+    ],
+    "name": "Grid images",
+      "max_blocks": 3,
+      "blocks": [
+        {
+          "type": "image",
+          "name": "Portrait image",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "portrait_image",
+              "label": "Image"
+            },
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Title"
+            },
+            {
+              "type": "checkbox",
+              "id": "white",
+              "label": "Make white?"
+            },
+            {
+              "type": "url",
+              "id": "url",
+              "label": "Link"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "Portrait row",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

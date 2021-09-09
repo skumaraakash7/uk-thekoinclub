@@ -1,0 +1,17 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Slideshow controls
+  - Controls for the slideshow
+------------------------------------------------------------------------------
+{% endcomment %}
+<div
+    class="slideshow__prev swiper-button slideshow__next--{{ slides_page }}"
+>
+    {% render 'icons' with icon: 'chevron round' %}
+</div>
+<div
+    class="slideshow__next swiper-button slideshow__next--{{ slides_page }}"
+>
+    {% render 'icons' with icon: 'chevron round' %}
+</div>
+<div class="slide-pagination"></div>

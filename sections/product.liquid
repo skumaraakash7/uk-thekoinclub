@@ -1,0 +1,648 @@
+<section data-section-id="{{ section.id }}" data-section-type="product">
+
+  <div class="relative product">
+    <div class="container">
+
+      <div class="row row--adjust-padding">
+        <div class="col m8 xs12 product__mobile-carousel">
+          <div class="slideshow--product-mobile">
+            <div class="slideshow--product-inner">
+              {% if product.media.size > 0 %}
+
+                <div
+                  class="slideshow__outer-container"
+                  js-slideshow-thumbnail-pagination="outer-container"
+                >
+                  <div class="relative">
+                    <div class="relative">
+                      <div
+                        id="slideshow__outerwrap-{{ section.id }}"
+                        class="slideshow__container relative swiper-container invisiblex"
+                        js-slideshow-thumbnail-pagination="gallery-top"
+                      >
+                        <ul class="slideshow__slides swiper-wrapper list-style-none">
+
+                          {% for media in product.media %}
+                            <li
+                                class="slideshow__slide swiper-slide background-color-off-white border-color-light-grey border"
+                              >
+                              {% if media.media_type == 'image' %}
+                                  <div class="slideshow__mobile-image swiper-zoom-container">
+                                    <img
+                                      loading="lazy"
+                                      title="Double click to zoom in"
+                                      src="{{ media.src | img_url: '2048x' }}"
+                                    >
+                                  </div>
+                              {% elsif media.media_type == 'model' %}
+                                <div class="slideshow__model-wrapper">
+                                  <model-viewer
+                                    class="slideshow__model"
+                                    data-media-id="{{ media.id }}"
+                                    camera-target="0 0 0"
+                                    camera-orbit="-1.1181076720456105rad 1.513187672045611rad 1.95m"
+                                    interaction-prompt-threshold="0"
+                                    field-of-view="41.26deg"
+                                    camera-controls="true"
+                                    src="{{ media.sources[0].url }}"
+                                    style="--poster-color: transparent;"
+                                    data-shopify-feature="1.7"
+                                    alt="{{ media.alt }}"
+                                    poster="https://cdn.shopify.com/s/files/1/0524/0641/9644/files/{{ media.preview_image.src | remove: 'products/' }}"
+                                    https://cdn.shopify.com/s/files/1/0524/0641/9644/files/era.jpg?v=1625756534
+                                    data-js-focus-visible=""
+                                    ar-status="not-presenting"
+                                    js-object="object"
+                                  ></model-viewer>
+                                </div>
+                              {% elsif media.host == 'vimeo' %}
+                                <div class="slideshow__video-wrapper">
+                                    <iframe class="slideshow__video block" src="https://player.vimeo.com/video/{{ media.external_id }}" frameborder="0" js-video="vimeo-video" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                                </div>
+                              {% elsif media.host == 'youtube' %}
+                                <div class="slideshow__video-wrapper">
+                                    <iframe class="slideshow__video block" src="https://www.youtube.com/embed/{{ media.external_id }}" frameborder="0" js-video="youtube-video" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                                </div>
+                              {% elsif media.media_type == 'video' %}
+                                <div class="slideshow__video-wrapper">
+                                    <video class="slideshow__video block video-html5" controls >
+                                      <source src="{{ media.sources[1].url }}" type="video/mp4" />
+                                    </video>
+                                </div>
+                              {% endif %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                        {% render 'slideshow-controls' %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="swiper-container gallery-thumbs"
+                  js-slideshow-thumbnail-pagination="gallery-bottom"
+                >
+                  <div class="swiper-wrapper">
+                    {% for media in product.media %}
+                      <div class="swiper-slide border-color-light-grey border">
+                        <div class="swiper-slide-container">
+                          {% if media.media_type == 'image' %}
+                            {% render 'responsive-image' with
+                                image: media.src,
+                                max_width: 300,
+                                max_height: 300,
+                                wrapper_class: 'slideshow__mobile-image-thumbnail'
+                            %}
+                          {% elsif media.media_type == 'model' %}
+                            <div class="media-video-model--thumbnail background-color-off-white">
+                                <img
+                                  src="https://cdn.shopify.com/s/files/1/0524/0641/9644/files/{{ media.preview_image.src | remove: 'products/' }}"
+                                  class="slideshow__mobile-image-thumbnail media-video-model--thumbnail-poster"
+                                />
+                                {% render 'icons' with icon: 'model' %}
+                            </div>
+                          {% elsif media.media_type == 'video' or media.media_type == 'external_video' %}
+                            <div class="media-video-model--thumbnail background-color-off-white">
+                              {% if media.media_type == 'external_video' %}
+                                <img
+                                  src="https://cdn.shopify.com/s/files/1/0524/0641/9644/files/{{ media.external_id }}.jpg"
+                                  class="slideshow__mobile-image-thumbnail media-video-model--thumbnail-poster"
+                                />
+                              {% else %}
+                                <img
+                                  src="{{ 'blank.gif' | asset_url }}"
+                                  class="slideshow__mobile-image-thumbnail media-video-model--thumbnail-poster"
+                                />
+                              {% endif %}
+                              {% render 'icons' with icon: 'play' %}
+                            </div>
+                          {% else %}
+                            {{ media | json }}
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div
+          class="col m4 xs12 no-padding-right product__description product__description--{%- if product.images.size > 6 -%}
+            more-thumbs
+          {%- else -%}
+            less-thumbs
+          {%- endif -%}"
+        >
+          <h1 class="h3-4 product__title">{{ product.title }}</h1>
+
+          <div class="shopify-product-reviews-badge-wrapper p hide">
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          </div>
+
+          <div data-product-price class="product__price">
+            {% render 'product-price' with current_variant: current_variant, product_type: single %}
+          </div>
+
+          <h5>{% render 'product-stock' with current_variant: current_variant %}</h5>
+
+          {% if product.requires_selling_plan == false %}
+            {%- assign this_shop = shop.permanent_domain -%}
+
+            {% case this_shop %}
+              {% when 'koin-uk.myshopify.com' %}
+              {% render 'split-payment-small' with split_price: product.price, split_type: 'product'  %}
+            {% endcase %}
+
+          {% endif %}
+
+          <p class="hide">Fulfilled by <span class="color-blue">{{ product.vendor }}</span></p>
+
+          {% capture form_id %}add-to-cart-{{ product.handle }}-{{ collection.handle }}-{{ section.id }}{% endcapture %}
+
+          {% form 'product', product, data-productid: product.id, data-product-form: '', data-product-handle: product.handle, data-enable-history-state: 'true', id: form_id  %}
+
+            {% if product.available %}{% render 'subscription-product' %}{% endif %}
+
+            {% assign widget_settings = shop.metafields.subscriptions %}
+            {% assign subscription_details_label = widget_settings.subscription_details_verbiage | default: "Subscription details" %}
+            {% assign how_it_works_text = widget_settings.how_it_works | default: "<strong>How subscriptions work</strong><br><br>Products are automatically delivered on your schedule. No obligation, modify or cancel your subscription anytime." %}
+
+            {% if product.variants[0].selling_plan_allocations[0] != '' and product.variants[0].selling_plan_allocations[0] != null %}
+
+              <span class="rc-popup__trigger color-blue underline" js-popup="trigger" data-popup-id="rc-popup">{{ subscription_details_label }}</span>
+              <div
+                class="popup"
+                js-popup="popup"
+                js-popup-id="rc-popup"
+              >
+                <div class="popup__wrapper">
+                  <div class="popup__content background-color-white">
+                    <div class="relative">
+                      <div
+                        class="popup__close"
+                        js-popup="close"
+                      >{% render 'icons' with icon: 'close' %}</div>
+
+                      <div class="popup-content-rc-popup">
+                        {{ how_it_works_text }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="popup-overlay background-opal-black"
+                  js-popup="close"
+                ></div>
+              </div>
+
+            {% endif %}
+
+            <input type="hidden" name="options[default]" value="{{ product.selected_or_first_available_variant.id }}" data-productid="{{ product.id }}">
+
+            {% unless product.has_only_default_variant %}
+              {% for option in product.options_with_values %}
+                <div class="js">
+
+                  {% if forloop.index0 > 0 %}
+
+                    {% for value in option.values %}
+                      <input type="radio" id="Option{{ option.position }}-{{ value }}" name="options[{{ option.name }}]" value="{{ value }}"{% if option.selected_value == value %} checked{% endif %}>
+                      <label for="Option{{ option.position }}-{{ value }}">{{ value }}</label>
+                    {% endfor %}
+
+                  {% else %}
+
+                    <label for="Option{{ option.position }}">
+                      {{ option.name }}
+                    </label>
+
+                    <select
+                      id="Option{{ option.position }}"
+                      name="options[{{ option.name | escape }}]">
+
+                      {% for value in option.values %}
+                        <option
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}selected="selected"{% endif %}>
+                            {{ value }}
+                        </option>
+                      {% endfor %}
+                    </select>
+
+                  {% endif %}
+                </div>
+              {% endfor %}
+            {% endunless %}
+
+            <noscript>
+              <select name="id" data-productid="{{product.id}}">
+                {% for variant in product.variants %}
+                  <option
+                    {% if variant == current_variant %}selected="selected"{% endif %}
+                    {% unless variant.available %}disabled="disabled"{% endunless %}
+                    value="{{ variant.id }}">
+                      {{ variant.title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </noscript>
+
+            {% assign allowed_more = true %}
+            {% assign allowed_multiples = true %}
+
+            {% for tag in product.tags %}
+              {% if tag contains 'MAX ORDER:' %}
+                {% assign allowed_multiples = false %}
+                {% assign max_order = tag | split: ': ' %}
+                {% assign max_order = max_order[1] | plus: 0 %}
+              {% endif %}
+            {% endfor %}
+
+            {% if allowed_multiples == false %}<p>{{ 'products.product.only_allowed' | t: max_order: max_order }}</p>{% endif %}
+
+            {% if allowed_multiples == false %}
+              {% for item in cart.items %}
+                {% if item.product.id == product.id %}
+                  {% if item.quantity >= max_order %}
+                    {% assign allowed_more = false %}
+                    <p>You've got the limit in your basket</p>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <div class="product__quantity {% if allowed_multiples == false %}hide{% endif %}">
+              <span class="product__quantity-label">{{ 'products.product.quantity' | t }}: </span>
+              <span
+                class="product__quantity-button product-quantity-minus"
+                js-quantity="minus"
+              >-</span>
+              <input
+                id="Quantity"
+                name="quantity"
+                class="product__quantity-number product-quantity"
+                type="number"
+                value="1"
+                min="1"
+                js-quantity="value"
+              >
+              <span
+                class="product__quantity-button product-quantity-plus"
+                js-quantity="plus"
+              >+</span>
+            </div>
+
+            <div class="product__wishlist-button-wrap relative">
+              {% render 'wishlist-button' with id: product.id | json %}
+            </div>
+
+            <div class="product__submit-wrap">
+              <button
+                type="submit"
+                name="add"
+                data-add-to-cart
+                class="js-go-cart-add-to-cart button product__submit button--tall full-width pointer-events-none {% if allowed_more == false %}maxed-out-message{% endif %}"
+                {%- if allowed_more == false -%}disabled="disabled"{%- endif -%}
+                js-cart="add"
+                {%- if allowed_multiples == false -%}max-order="{{ max_order }}"{%- endif -%}
+              >
+                <span class="button__preloading">{{- 'products.product.add_to_cart' | t -}}</span>
+                <span class="button__loading">
+                  {% render 'icons' with icon: 'free-returns' %}
+                </span>
+              </button>
+            </div>
+          {% endform %}
+          <ul class="list-style-none p background-color-light-grey product-purchase-terms">
+            <li>{% render 'icons' with icon: 'free-returns' %}<span class="caps">FREE</span> 28 Day Returns on all orders</li>
+            <li>{% render 'icons' with icon: 'standard-delivery' %}<span class="caps">FREE</span> UK Delivery on orders over £50.00</li>
+
+            {% case this_shop %}
+              {% when 'koin-uk.myshopify.com' %}
+              <li>{% render 'icons' with icon: 'piggy' %}Split the cost with interest free payments</li>
+            {% endcase %}
+
+          </ul>
+
+          {% for group in product.selling_plan_groups %}
+            {% for selling_plan in group.selling_plans %}
+              <!-- {{ selling_plan.id }} -->
+            {% endfor %}
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+    {% comment %}
+      {% if product.metafields.shogun.below != null or product.metafields.shogun.below != blank %}
+        <div class="vertical-padding">
+            {{product.metafields.shogun.below}}
+        </div>
+      {% endif %}
+    {% endcomment %}
+
+    {% if product.requires_selling_plan == false %}
+
+      {% unless product.tags contains 'EPD PRODUCT' %}
+
+        {% render 'product-also-bought' %}
+
+        <div class="vertical-padding">
+          <div class="vertical-padding product__accordions background-color-off-white relative">
+            <div
+              class="product__accordion accordion border-top border-bottom border-color-light-grey is-active"
+              js-accordion="accordion"
+            >
+              <h3
+                class="color-navy h4 relative accordion-trigger no-margin-bottom"
+                js-accordion="accordion-trigger"
+              >
+                {{ 'products.product.description' | t }}
+                <div class="accordion-icon accordion-icon--plus">
+                  <div class="accordion-icon__plus-minus accordion-icon__plus background-color-blue"></div>
+                  <div class="accordion-icon__plus-minus accordion-icon__minus background-color-blue"></div>
+                </div>
+              </h3>
+              <div class="accordion-content">
+                <div class="accordion-content-inner rte accordion-content-inner--columns">
+                  {{ product.description }}
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product__accordion accordion border-top border-bottom border-color-light-grey"
+              js-accordion="accordion"
+            >
+              <h3
+                class="color-navy h4 relative accordion-trigger no-margin-bottom"
+                js-accordion="accordion-trigger"
+              >
+                {{ 'products.product.specification' | t }}
+                <div class="accordion-icon accordion-icon--plus">
+                  <div class="accordion-icon__plus-minus accordion-icon__plus background-color-blue"></div>
+                  <div class="accordion-icon__plus-minus accordion-icon__minus background-color-blue"></div>
+                </div>
+              </h3>
+              <div class="accordion-content">
+                <div class="accordion-content-inner rte">
+                  <ul class="list-style-none no-margin-bottom specification-list">
+                    {% if product.metafields.global['Length'] != null or product.metafields.global['Length'] %}
+                      <li class="p">
+                        Length: <strong>{{ product.metafields.global['Length'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Height'] != null or product.metafields.global['Height'] %}
+                      <li class="p">
+                        Height: <strong>{{ product.metafields.global['Height'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Weight'] != null or product.metafields.global['Weight'] %}
+                      <li class="p">
+                        Weight: <strong>{{ product.metafields.global['Raw Product Weight'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Denomination'] != null or product.metafields.global['Denomination'] %}
+                      <li class="p">
+                        Denomination: <strong>{{ product.metafields.global['Denomination'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Finish'] != null or product.metafields.global['Finish'] %}
+                      <li class="p">
+                        Finish: <strong>{{ product.metafields.global['Finish'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Edition_Limit'] != null or product.metafields.global['Edition_Limit'] %}
+                      <li class="p">
+                        Edition limit: <strong>{{ product.metafields.global['Edition_Limit'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Base_Metal'] != null or product.metafields.global['Base_Metal'] %}
+                      <li class="p">
+                        Base metal: <strong>{{ product.metafields.global['Base_Metal'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Plating'] != null or product.metafields.global['Plating'] %}
+                      <li class="p">
+                        Plating: <strong>{{ product.metafields.global['Plating'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Depth'] != null or product.metafields.global['Depth'] %}
+                      <li class="p">
+                        Depth: <strong>{{ product.metafields.global['Depth'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Diameter'] != null or product.metafields.global['Diameter'] %}
+                      <li class="p">
+                        Diameter: <strong>{{ product.metafields.global['Diameter'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Country_Of_Issue'] != null or product.metafields.global['Country_Of_Issue'] %}
+                      <li class="p">
+                        Country of issue: <strong>{{ product.metafields.global['Country_Of_Issue'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Face_Value'] != null or product.metafields.global['Face_Value'] %}
+                      <li class="p">
+                        Face value: <strong>{{ product.metafields.global['Face_Value'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                    {% if product.metafields.global['Year_Of_Issue'] != null or product.metafields.global['Year_Of_Issue'] %}
+                      <li class="p">
+                        Year of issue: <strong>{{ product.metafields.global['Year_Of_Issue'] }}</strong>
+                      </li>
+                    {% endif %}
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product__accordion accordion border-top border-bottom border-color-light-grey"
+              js-accordion="accordion"
+              js-accordion-reviews="reviews"
+            >
+              <h3
+                class="color-navy h4 relative accordion-trigger no-margin-bottom"
+                js-accordion="accordion-trigger"
+              >
+                {{ 'products.product.reviews' | t }}
+                <div class="shopify-product-reviews-badge-wrapper pointer-events-none shopify-product-reviews-badge-wrapper--tabs p hide">
+                  <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                </div>
+                <div class="accordion-icon accordion-icon--plus">
+                  <div class="accordion-icon__plus-minus accordion-icon__plus background-color-blue"></div>
+                  <div class="accordion-icon__plus-minus accordion-icon__minus background-color-blue"></div>
+                </div>
+              </h3>
+              <div class="accordion-content">
+                <div class="accordion-content-inner rte">
+                  <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product__accordion accordion border-top border-bottom border-color-light-grey"
+              js-accordion="accordion"
+            >
+              <h3
+                class="color-navy h4 relative accordion-trigger no-margin-bottom"
+                js-accordion="accordion-trigger"
+              >
+                {{ 'products.product.delivery' | t }}
+                <div class="accordion-icon accordion-icon--plus">
+                  <div class="accordion-icon__plus-minus accordion-icon__plus background-color-blue"></div>
+                  <div class="accordion-icon__plus-minus accordion-icon__minus background-color-blue"></div>
+                </div>
+              </h3>
+              <div class="accordion-content">
+                <div class="accordion-content-inner rte">
+                  {{ pages['uk-delivery-information'].content }}
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product__accordion accordion border-top border-bottom border-color-light-grey"
+              js-accordion="accordion"
+            >
+              <h3
+                class="color-navy h4 relative accordion-trigger no-margin-bottom"
+                js-accordion="accordion-trigger"
+              >
+                {{ 'products.product.returns' | t }}
+                <div class="accordion-icon accordion-icon--plus">
+                  <div class="accordion-icon__plus-minus accordion-icon__plus background-color-blue"></div>
+                  <div class="accordion-icon__plus-minus accordion-icon__minus background-color-blue"></div>
+                </div>
+              </h3>
+              <div class="accordion-content">
+                <div class="accordion-content-inner rte">
+                  {{ pages['uk-returns-information'].content }}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      {% endunless %}
+    </div>
+  </section>
+
+  {% unless product.tags contains 'EPD PRODUCT' %}
+
+    {%- assign product_main_handle = product.handle -%}
+    {% assign show_generic_feeds = true %}
+    {% assign used_rebuy_id = settings.cart_feed_id %}
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% if product_main_handle == block.settings.product_handle %}
+          {% assign show_generic_feeds = false %}
+        {%- endif -%}
+      {% endfor %}
+    {%- endif -%}
+
+    {% if show_generic_feeds %}
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% if block.settings.product_handle == blank %}
+            {% assign rebuy_id = block.settings.feed_id %}
+            {% unless used_rebuy_id contains rebuy_id %}
+              {% assign used_rebuy_id = used_rebuy_id | append: ',' %}
+              {% assign used_rebuy_id = used_rebuy_id | append: rebuy_id %}
+              <section class="vertical-padding recommended rebuy-feed hide" data-rebuy-carousel-section="{{ rebuy_id }}">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="color-navy h3">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                <div data-rebuy-id="{{ rebuy_id }}" data-rebuy-carousel="{{ rebuy_id }}" class="carousel-hide">
+                  {% render 'rebuy-script' with feed_id: block.settings.feed_id %}
+                </div>
+              </section>
+            {% endunless %}
+          {%- endif -%}
+        {% endfor %}
+      {%- endif -%}
+    {% else %}
+      {% for block in section.blocks %}
+        {% if block.settings.product_handle != blank %}
+          {% if product_main_handle == block.settings.product_handle %}
+            {% assign rebuy_id = block.settings.feed_id %}
+            {% unless used_rebuy_id contains rebuy_id %}
+              {% assign used_rebuy_id = used_rebuy_id | append: ',' %}
+              {% assign used_rebuy_id = used_rebuy_id | append: rebuy_id %}
+              <section class="vertical-padding recommended rebuy-feed hide" data-rebuy-carousel-section="{{ rebuy_id }}">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="color-navy h3">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                <div data-rebuy-id="{{ rebuy_id }}" data-rebuy-carousel="{{ rebuy_id }}" class="carousel-hide">
+                  {% render 'rebuy-script' with feed_id: block.settings.feed_id %}
+                </div>
+              </section>
+            {% endunless %}
+          {% endif %}
+        {%- endif -%}
+      {% endfor %}
+    {% endif %}
+
+  {% endunless %}
+
+{%- comment -%}
+  end of if product.requires_selling_plan == false
+{%- endcomment -%}
+{% else %}
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product pages",
+    "settings": [ ],
+    "name": "Product page block",
+    "blocks": [
+      {
+        "type": "feed",
+        "name": "ReBuy feed",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product_handle",
+            "label": "Product",
+            "info": "Select product where this feed will show. If left blank it will become a general PDP"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Rebuy feed"
+          },
+          {
+            "type": "text",
+            "id": "feed_id",
+            "label": "Feed ID",
+            "default": "6437",
+            "info": "You can't repeat ids"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+

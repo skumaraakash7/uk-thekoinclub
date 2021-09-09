@@ -1,0 +1,46 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Quick order codes
+  - The code for the quick order page
+------------------------------------------------------------------------------
+{% endcomment %}
+<script>
+const promoCodes = [
+    {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+            {code: '{{ block.settings.code }}', productID: '{{ block.settings.product.selected_or_first_available_variant.id }}'},
+        {% endfor %}
+    {% endif %}
+]
+</script>
+{% schema %}
+  {
+    "name": "Quick order codes",
+    "settings": [
+
+    ],
+    "name": "Codes",
+      "blocks": [
+        {
+          "type": "code",
+          "name": "Code",
+          "settings": [
+            {
+              "type": "text",
+              "id": "code",
+              "label": "Code"
+            },
+            {
+              "type": "product",
+              "id": "product",
+              "label": "Product"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "Slideshow",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

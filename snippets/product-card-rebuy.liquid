@@ -1,0 +1,101 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Product card rebuy
+  - Uses the card component as the base
+------------------------------------------------------------------------------
+{% endcomment %}
+<div
+  class="product-card product-card--rebuy"
+>
+
+  <div class="product-card__thumbnail-container relative">
+
+    <a
+      class="product-card__link"
+      v-bind:href="learnMoreURL(product)"
+      v-bind:style="imageStyles"
+      v-on:click="learnMore(product);"
+      v-bind:class="[hasLearnMore() ? 'clickable' : '']"
+    >
+
+      <div class="product-card__thumbnail">
+          <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+      </div>
+
+      <div class="product-card__thumbnail--hover">
+          <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+      </div>
+
+    </a>
+
+    <button
+        v-bind:class="'swym-button swym-add-to-wishlist-view-product product-card__wishlist-button product_' + product.id"
+        data-with-epi="true"
+        data-swaction="addToWishlist"
+        v-bind:data-product-id="product.id"
+        v-bind:data-variant-id="product.selected_variant.id"
+        v-bind:data-product-url="'{{ shop.url }}' + learnMoreURL(product).split('?')[0]"
+    >
+        {% render 'icons' with icon: 'favourite-circle' %}
+        {% render 'icons' with icon: 'favourite-sans-circle' %}
+    </button>
+
+      <a
+        v-bind:href="'/cart/add?id='+product.selected_variant.id+'&amp;quantity=1'"
+        v-bind:class="'button button--with-icon product-form-cart-submit product-card__button product-card__button--'+ product.product_type +' add-product-id-' + product.id"
+        js-cart="add"
+        feed-button="rebuy"
+        v-bind:data-max-order-id="'add-product-id-' + product.id"
+      >
+        <template v-if="(variantAvailable(product.selected_variant))">
+          <span class="button__preloading">{% render 'icons' with icon: 'quick add' %}</span>
+          <span class="hide--m button__preloading">{{- 'products.product.add_to_cart_quick_html' | t -}}</span>
+        </template>
+        <template v-if="!(variantAvailable(product.selected_variant))">
+          {{- 'products.product.sold_out' | t -}}
+        </template>
+        <span class="button__loading">
+          {% render 'icons' with icon: 'free-returns' %}
+        </span>
+      </a>
+
+  </div>
+
+
+  <div class="product-card__footer">
+      <div v-if="product.product_type" class="small caps border-left border-color-blue product-card__purchase-type"  v-html="product.product_type"></div>
+      <div v-else class="small caps product-card__purchase-type">&nbsp;</div>
+    <a
+      class="product-card__link-text"
+      v-bind:href="learnMoreURL(product)"
+    >
+      <h3 class="h6 bold product-card__title" v-html="product.title"></h3>
+    </a>
+    {% render 'product-price-rebuy' %}
+
+    {% comment %}
+    <div class="product-card__button--cart-style-wrapper">
+      <a
+        v-bind:href="'/cart/add?id='+product.selected_variant.id+'&amp;quantity=1'"
+        v-bind:class="'button button--with-icon product-form-cart-submit product-card__button--cart-style product-card__button--'+ product.product_type +' add-product-id-' + product.id"
+        js-cart="add"
+        feed-button="rebuy"
+      >
+        <template v-if="(variantAvailable(product.selected_variant))">
+          <span class="button__preloading">{% render 'icons' with icon: 'quick add' %}</span>
+          <span class="button__preloading">{{- 'products.product.add_to_cart_quick' | t -}}</span>
+        </template>
+        <template v-if="!(variantAvailable(product.selected_variant))">
+          {{- 'products.product.sold_out' | t -}}
+        </template>
+        <span class="button__loading">
+          {% render 'icons' with icon: 'free-returns' %}
+        </span>
+      </a>
+    </div>
+    {% endcomment %}
+
+  </div>
+
+
+</div>

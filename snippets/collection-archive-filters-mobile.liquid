@@ -1,0 +1,143 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Collection archive filters mobile
+  - The filters for mobile
+----------------------------------------------------------------------------
+{% endcomment %}
+<div
+    class="site-header__mobile-menu mobile-menu critical-hide"
+    js-mobile-nav="menu"
+    js-mobile-menu="filter"
+>
+
+      <div class="filters-height-wrap">
+
+        <ul class="list-style-none mobile-menu__nav-list mobile-blocks inline-block-wrapper background-color-white menu-max-width flex-direction-column flexbox">
+            <li
+                class="mobile-blocks__item mobile-blocks__item--filter mobile-blocks__parent-item menu-item-has-children mobile-blocks__parent-item-wide"
+            >
+                <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey background-color-off-white mobile-blocks__filter-sort">
+                    <p class="p mobile-blocks__parent-item--title mobile-blocks__item--title bold">
+                        Filter {% render 'icons' with icon: 'filter' %}
+                    </p>
+                </div>
+            </li>
+            <li
+                class="mobile-blocks__item mobile-blocks__item--filter mobile-blocks__parent-item menu-item-has-children"
+                js-mobile-nav="subMenuParent"
+            >
+                <ul
+                    class="list-style-none mobile-menu__sub-menu mobile-blocks__sub-menu-- background-color-white menu-max-width flex-direction-column flexbox"
+                    js-mobile-nav="subMenu"
+                >
+                    <li
+                        class="mobile-blocks__item mobile-blocks__item--filter mobile-blocks__parent-item menu-item-has-children mobile-blocks__parent-item-wide mobile-blocks__sub-nav-title"
+                    >
+                        <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey background-color-off-white">
+                            <p
+                                class="p mobile-blocks__parent-item--title mobile-blocks__item--title bold"
+                                js-mobile-nav="subMenuClose"
+                            >
+                                <span
+                                    class="close-sub-nav"
+                                >
+                                    {% render 'icons' with icon: 'chevron' %}
+                                </span>
+                                Brand (tag 'BRAND: Xxxx'):
+                            </p>
+                        </div>
+                    </li>
+                    <li class="mobile-blocks__sub-menu-item mobile-blocks__sub-menu-item--filter">
+                        <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey">
+                            <div class="p mobile-blocks__sub-menu-item--title mobile-blocks__sub-menu-item--title--filter flexbox space-between">
+                                <div>Brand tag</div>
+                                <div class="filter-count-wrap color-grey">
+                                    <span class="filter-product-count">8</span> <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mobile-blocks__sub-menu-item mobile-blocks__sub-menu-item--filter">
+                        <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey">
+                            <div class="p mobile-blocks__sub-menu-item--title mobile-blocks__sub-menu-item--title--filter flexbox space-between">
+                                <div>Brand tag</div>
+                                <div class="filter-count-wrap color-grey">
+                                    <span class="filter-product-count">8</span> <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mobile-blocks__sub-menu-item mobile-blocks__sub-menu-item--filter">
+                        <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey">
+                            <div class="p mobile-blocks__sub-menu-item--title mobile-blocks__sub-menu-item--title--filter flexbox space-between">
+                                <div>Brand tag</div>
+                                <div class="filter-count-wrap color-grey">
+                                    <span class="filter-product-count">8</span> <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mobile-blocks__sub-menu-item mobile-blocks__sub-menu-item--buttons">
+                        <div class="mobile-blocks__sub-menu-item-inner relative border-transparent">
+                            <div class="flexbox space-between filter-buttons">
+                                <button class="button button--grey">
+                                    {% render 'icons' with icon: 'free-returns' %}Clear filter
+                                </button>
+                                <button class="button">
+                                    Show 12 results
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div
+                    class="mobile-blocks__item-inner mobile-blocks__item-inner--filter-parent relative border-color-light-grey"
+                    js-mobile-nav="subMenuTrigger"
+                >
+                    <div class="p mobile-blocks__parent-item--title mobile-blocks__item--title mobile-blocks__item--title--filter flexbox space-between">
+                        <span>Brand (tag 'BRAND: Xxxx')</span>
+                        <div class="filter-count-wrap color-grey">
+                            <span class="filter-filters-count">8</span> {% render 'icons' with icon: 'chevron' %}
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            {% comment %}
+                Product Type
+                Face Value (metafield)
+                Country Of Issue (metafield)
+                Finish (metafield)
+                Year Of Issue (metafield)
+            {% endcomment %}
+            <li
+                class="mobile-blocks__item mobile-blocks__item--filter mobile-blocks__parent-item menu-item-has-children mobile-blocks__parent-item-wide"
+            >
+                <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey background-color-off-white mobile-blocks__filter-sort">
+                    {% render 'slider-placeholder' %}
+                </div>
+            </li>
+
+
+            <li class="mobile-blocks__sub-menu-item mobile-blocks__sub-menu-item--buttons">
+                <div class="mobile-blocks__sub-menu-item-inner relative border-transparent">
+                    <div class="flexbox space-between filter-buttons">
+                        <button class="button button--grey">
+                            {% render 'icons' with icon: 'free-returns' %}Clear filter
+                        </button>
+                        <button class="button">
+                            Show 12 results
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="menu-overlay background-opal-black" js-mobile-nav="close">
+            <div class="menu-max-width relative">
+                <div class="menu-overlay__close">
+                    {% render 'icons' with icon: 'close' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

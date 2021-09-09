@@ -1,0 +1,43 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Split payment small
+  - Split payment snippet
+------------------------------------------------------------------------------
+{% endcomment %}
+<div class="product__split-payment" js-split-price="wrapper">
+
+  {% for i in (1..3) %}
+
+    {% capture split_payment_min %}split_payment_min_{{i}}{% endcapture %}
+    {% capture split_payment_logo %}split_payment_logo_{{i}}{% endcapture %}
+    {% capture split_payment_number %}split_payment_number_{{i}}{% endcapture %}
+    {% capture split_payment_intro %}split_payment_intro_{{i}}{% endcapture %}
+    {% capture split_payment_outro %}split_payment_outro_{{i}}{% endcapture %}
+
+    {% assign this_logo = settings[split_payment_logo] %}
+
+    {% if this_logo != 'none' and this_logo != 'laybuy colour' %}
+
+      <div class="split-payment-box flexbox {% if split_price < settings[split_payment_min] %}hide{% endif %}" style="">
+
+        {%- render 'logos' with icon: this_logo -%}
+
+        <div class="split-payment-box__text-content p no-margin-bottom">
+            {{ settings[split_payment_intro] | strip_html }}
+            <span
+              class="split-price"
+              js-split-price="split-price-{{ split_type }}"
+              data-split-price="{{ split_price }}"
+              data-payments="{{ settings[split_payment_number] }}"
+              data-min="{{ settings[split_payment_min] }}"
+            >
+              {{ split_price | divided_by: settings[split_payment_number] | money }}
+            </span>
+            {{ settings[split_payment_outro] | strip_html }}
+            <span class="split-payment-box__trigger" js-popup="trigger" data-popup-id="{{this_logo}}">{{ 'cart.drawer.learn_more' | t }}</span>
+        </div>
+      </div>
+    {% endif %}
+
+  {% endfor %}
+</div>

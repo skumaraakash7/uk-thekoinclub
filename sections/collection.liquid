@@ -1,0 +1,77 @@
+{% include 'spurit_po2_section_snippet', product: null, products: collections[section.settings.collection].products %}
+
+
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Collection
+  - Collection section
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="vertical-padding vertical-padding--section recommended collection-carousel {% if section.settings.grey_background %}vertical-padding--with-background background-color-light-grey collection-carousel--with-background{% endif %} {% if section.settings.outlet_store %}background-color-lemon collection-carousel--with-background{% endif %}">
+  {%- if section.settings.title != blank -%}
+      <h3 class="color-navy h3 carousel-title page-width page-padding">{{ section.settings.title | escape }}</h3>
+  {%- endif -%}
+
+  <div class="carousel-color-wrapper {% if section.settings.outlet_store %}background-color-lemon{% endif %}">
+    <div class="page-width page-padding">
+      {% if section.settings.outlet_store %}
+          {% render 'icons' with icon: 'outlet store' %}
+      {% endif %}
+
+      {% if section.settings.outlet_caption != blank %}
+          <h4 class="h4 text-center outlet-caption">{{ section.settings.outlet_caption }}</h4>
+      {% endif %}
+
+      {%- assign collection = collections[section.settings.collection] -%}
+
+      {% render 'product-carousel' with collection: collection %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Product carousel",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "grey_background",
+        "label": "Grey background?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "outlet_store",
+        "label": "Outlet store mode?",
+        "default": false,
+        "info": "Ticking this will add a yellow background and the Koin Outlet logo"
+      },
+      {
+        "type": "text",
+        "id": "outlet_caption",
+        "label": "Mini caption",
+        "info": "Generally used for the Outlet store"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [{
+        "name": "Product carousel",
+        "category": "Products"
+    }]
+  }
+{% endschema %}

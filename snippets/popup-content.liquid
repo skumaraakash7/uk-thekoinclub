@@ -1,0 +1,17 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Logos
+  - General purpose icons to provide additional visuals on top of labels.
+------------------------------------------------------------------------------
+{% endcomment %}
+{% case popup %}
+  {% when 'clearpay' or 'clearpay colour' %}
+    {{ pages['clearpay'].content }}
+
+  {% when 'klarna' or 'klarna colour' %}
+    {{ pages['klarna'].content }}
+
+  {% when 'laybuy' or 'laybuy colour' %}
+    {{ pages['laybuy'].content }}
+
+{% endcase %}

@@ -1,0 +1,144 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Banners
+  - Banners grid section of lifestyle images
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="vertical-padding vertical-padding--section banners banners--block-count-{{ section.blocks.size }} {% if section.settings.grey_background %}vertical-padding--with-background background-color-off-white{% endif %}">
+  <div class="page-width page-padding">
+    {%- if section.settings.title != blank -%}
+      <h2>{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+
+    <div class="banners__wrap">
+
+      {% assign banner_counter = 0 %}
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <div
+            id="nosto-{{ section.id }}-{{ banner_counter }}"
+            class="nosto_element block banner banner--{{ banner_counter }} relative hover-scale"
+          >
+            <a href="{{ block.settings.banner_url }}">
+
+              {% render 'responsive-image' with
+                  image: block.settings.banner_image,
+                  max_width: 1920,
+                  max_height: 1920,
+                  wrapper_class: 'banner__background-image hide--m'
+              %}
+              {% render 'responsive-image' with
+                  image: block.settings.mobile_image,
+                  max_width: 1920,
+                  max_height: 1920,
+                  wrapper_class: 'banner__mobile-image hide--t  hide--d'
+              %}
+              {% if block.settings.button %}
+                <div class="button button-{{ block.settings.color }} banner__button banner__button--{{ block.settings.position }}">Shop now</div>
+              {% endif %}
+            </a>
+          </div>
+          {% assign banner_counter = banner_counter | plus: 1 %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Banners",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "grey_background",
+        "label": "Grey background?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Banners"
+      }
+    ],
+      "name": "Banner images",
+      "max_blocks": 4,
+      "blocks": [
+        {
+          "type": "image",
+          "name": "Banner image",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "banner_image",
+              "label": "Desktop image"
+            },
+            {
+              "type": "image_picker",
+              "id": "mobile_image",
+              "label": "Mobile image"
+            },
+            {
+              "type": "url",
+              "id": "banner_url",
+              "label": "Banner link"
+            },
+            {
+              "type": "checkbox",
+              "id": "button",
+              "label": "Show button"
+            },
+            {
+              "type": "select",
+              "id": "color",
+              "label": "Button colour",
+              "options": [
+                {
+                  "value": "blue",
+                  "label": "Blue"
+                },
+                {
+                  "value": "yellow",
+                  "label": "Yellow"
+                }
+              ],
+              "default": "blue"
+            },
+            {
+              "type": "select",
+              "id": "position",
+              "label": "Button position",
+              "options": [
+                {
+                  "value": "top-left",
+                  "label": "Top left"
+                },
+                {
+                  "value": "top-right",
+                  "label": "Top right"
+                },
+                {
+                  "value": "bottom-left",
+                  "label": "Bottom left"
+                },
+                {
+                  "value": "bottom-right",
+                  "label": "Bottom right"
+                },
+                {
+                  "value": "middle",
+                  "label": "Middle"
+                }
+              ],
+              "default": "bottom-right"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "Banners",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

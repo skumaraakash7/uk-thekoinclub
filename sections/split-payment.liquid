@@ -1,0 +1,83 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Split payment
+  - Split payment sections
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="vertical-padding vertical-padding--section split-payment">
+  <div class="page-width page-padding">
+    <div class="split-payment__wrap flexbox space-between">
+        {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+                <div class="split-payment-box relative" style="background-color: {{ block.settings.color }}">
+                    {% assign this_logo = block.settings.logo %}
+                    {% if this_logo != 'none' %}
+                        {% render 'logos' with icon: this_logo %}
+                    {% endif %}
+                    <div class="split-payment-box__text-content p no-margin-bottom text-center">
+                        {{ block.settings.text | strip_html }}
+                        <span class="split-payment-box__trigger" js-popup="trigger" data-popup-id="{{this_logo}} colour">{{ 'cart.drawer.learn_more' | t }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Split payment",
+    "settings": [
+    ],
+    "name": "Split payment box",
+      "max_blocks": 4,
+      "blocks": [
+        {
+          "type": "payment",
+          "name": "Split payment box",
+          "settings": [
+            {
+              "type": "select",
+              "id": "logo",
+              "label": "Choose logo",
+              "options": [
+                {
+                  "value": "none",
+                  "label": "None"
+                },
+                {
+                  "value": "klarna",
+                  "label": "Klarna"
+                },
+                {
+                  "value": "laybuy",
+                  "label": "LayBuy"
+                },
+                {
+                  "value": "clearpay",
+                  "label": "ClearPay"
+                }
+              ],
+              "default": "none"
+            },
+            {
+              "type": "richtext",
+              "id": "text",
+              "label": "Text"
+            },
+            {
+                "type": "color",
+                "id": "color",
+                "label": "Background color",
+                "default": "#FFFFFF"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "Split payment",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

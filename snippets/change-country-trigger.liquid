@@ -1,0 +1,36 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Change country trigger
+----------------------------------------------------------------------------
+{% endcomment %}
+<!-- country selector -->
+<span class="change-country-your-in">{{ 'general.footer.youre_in' | t }}</span>
+
+{%- assign this_shop = shop.permanent_domain -%}
+
+{% case this_shop %}
+    {% when 'koin-uk.myshopify.com' %}
+    {%- assign this_shop_name = 'United Kingdom' -%}
+    {% when 'koin-eu.myshopify.com' %}
+    {%- assign this_shop_name = 'European Union' -%}
+    {% else %}
+    {%- assign this_shop_name = 'Rest of World' -%}
+{% endcase %}
+
+<div
+    class="icon-this-country inline-block cursor-pointer"
+    js-popup="trigger"
+    data-popup-id="change-country-popup"
+>
+    {% render 'flags' with icon: this_shop_name %}
+</div>
+
+<div
+    class="change-country-trigger color-blue border-left border-color-blue"
+    id="change-country-trigger"
+    js-popup="trigger"
+    data-popup-id="change-country-popup"
+>
+    {{ 'general.footer.change' | t }}
+</div>
+<!-- end of country selector -->

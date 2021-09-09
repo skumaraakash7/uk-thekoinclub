@@ -1,0 +1,478 @@
+{% render 'theme-strings-flags-footer' %}
+<footer class="site-footer critical-hide">
+  <div class="site-footer__navigation background-color-navy border-top color-white">
+    <div class="page-width page-padding site-footer__navigation-inner">
+      <div class="container">
+        <div class="flexbox--t space-between site-footer__navigation-row">
+          <div
+            class="site-footer__navigation-customer-care no-padding-left accordion"
+            js-accordion="accordion"
+          >
+            <h6
+              class="bold relative accordion-trigger"
+              js-accordion="accordion-trigger"
+            >
+              {{ 'general.footer.customer_care' | t }}
+              <div class="accordion-icon hide--t hide--d">
+                <div class="accordion-icon__plus-minus accordion-icon__plus background-color-white"></div>
+                <div class="accordion-icon__plus-minus accordion-icon__minus background-color-white"></div>
+              </div>
+            </h6>
+            <hr class="white hide--t hide--d">
+
+            {% if linklists['footer'].links.size > 0 %}
+              <div class="accordion-content">
+                <ul class="site-footer__navlist navlist list-style-none small">
+                  {% for link in linklists['footer'].links %}
+                    <li class="navlist__item">
+                      <a class="navlist__link" href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+          <div
+            class="site-footer__navigation-useful-links no-padding-right accordion"
+            js-accordion="accordion"
+          >
+            <h6
+              class="bold relative accordion-trigger"
+              js-accordion="accordion-trigger"
+            >
+              {{ 'general.footer.other_useful_links' | t }}
+              <div class="accordion-icon hide--t  hide--d">
+                <div class="accordion-icon__plus-minus accordion-icon__plus background-color-white"></div>
+                <div class="accordion-icon__plus-minus accordion-icon__minus background-color-white"></div>
+              </div>
+            </h6>
+            <hr class="white hide--t  hide--d" />
+
+            {% if linklists['other-useful-links'].links.size > 0 %}
+              <div class="accordion-content">
+                <ul class="site-footer__navlist navlist list-style-none small">
+                  {% for link in linklists['other-useful-links'].links %}
+                    <li class="navlist__item">
+                      <a class="navlist__link" href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+
+          <h4 class="h4 hide--t hide--d links-picture--intro">
+            {{ 'general.footer.more_about_html' | t }}
+          </h4>
+
+          {%- for i in (1..3) -%}
+            {%- capture picture_link -%}picture_link_{{i}}{%- endcapture -%}
+            {%- capture picture_link_title -%}picture_link_title_{{i}}{%- endcapture -%}
+            {%- capture picture_link_image -%}picture_link_image_{{i}}{%- endcapture -%}
+            {%- capture picture_link_text -%}picture_link_text_{{i}}{%- endcapture -%}
+            <div class="site-footer__navigation-useful-links site-footer__navigation-useful-links--picture links-picture--{{i}} no-padding-right accordion hide--t">
+              <a href="{{ section.settings[picture_link] }}" class="picture-link block picture-link--{{i}}">
+                <h6 class="bold relative hide--t hide--m">{{ section.settings[picture_link_title] }}</h6>
+                <div class="background-color-white color-navy">
+                  {% render 'responsive-image' with
+                    image: section.settings[picture_link_image],
+                    max_width: 700,
+                    max_height: 800,
+                    wrapper_class: 'picture-link__image hide--t'
+                  %}
+                  <div class="picture-link__text">
+                    <h6 class="h6 color-navy no-margin-bottom relative">
+                      {{ section.settings[picture_link_text] }}
+                      {% render 'icons' with icon: 'chevron' %}
+                    </h6>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {%- endfor -%}
+
+          {% if section.settings.mobile_feedback_url != blank %}
+            <div class="hide--t hide--d text-center site-footer__mobile-feedback background-color-light-grey color-black">
+              <div class="h4">
+                {{ section.settings.mobile_feedback_button_intro | remove: '<p>' | remove: '</p>' }}
+              </div>
+              <a href="{{ section.settings.mobile_feedback_url }}" class="button button--blue">
+                {{ section.settings.mobile_feedback_button_text }}
+              </a>
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="site-footer__social background-color-dark-navy color-white border-bottom border-color-yellow">
+    <div class="page-width page-padding">
+      <div class="flexbox--d space-between">
+        <div class="site-footer__payment flexbox">
+          {% for type in shop.enabled_payment_types %}
+            {% unless type == 'discover' or type == 'shop_pay' or type == 'diners_club' or type == 'google_pay' or type == 'amex' %}
+              {{ type | payment_type_svg_tag }}
+            {% endunless %}
+          {% endfor %}
+        </div>
+        <div class="site-footer__social-icons flexbox">
+          {% if settings.social_facebook_link != blank %}
+            <a class="block social-icon social-icon-facebook text-center" href="{{ settings.social_facebook_link | escape }}">
+              {% render 'social-icons' with icon: 'facebook' %}
+              <small class="social-icon__text">{{ settings.social_facebook_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_whatsapp_link != blank %}
+            <a class="block social-icon social-icon-whatsapp" href="https://wa.me/{{ settings.social_whatsapp_link | escape }}">
+              {% render 'social-icons' with icon: 'whatsapp' %}
+              <small class="social-icon__text">{{ settings.social_whatsapp_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_instagram_link != blank %}
+            <a class="block social-icon social-icon-instagram" href="{{ settings.social_instagram_link | escape }}">
+              {% render 'social-icons' with icon: 'instagram' %}
+              <small class="social-icon__text">{{ settings.social_instagram_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_twitter_link != blank %}
+            <a class="block social-icon social-icon-twitter" href="{{ settings.social_twitter_link | escape }}">
+              {% render 'social-icons' with icon: 'twitter' %}
+              <small class="social-icon__text">{{ settings.social_twitter_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_snapchat_link != blank %}
+            <a class="block social-icon social-icon-snapchat" href="{{ settings.social_snapchat_link | escape }}">
+              {% render 'social-icons' with icon: 'snapchat' %}
+              <small class="social-icon__text">{{ settings.social_snapchat_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_pinterest_link != blank %}
+            <a class="block social-icon social-icon-pinterest" href="{{ settings.social_pinterest_link | escape }}">
+              {% render 'social-icons' with icon: 'pinterest' %}
+              <small class="social-icon__text">{{ settings.social_pinterest_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_youtube_link != blank %}
+            <a class="block social-icon social-icon-youtube" href="{{ settings.social_youtube_link | escape }}">
+              {% render 'social-icons' with icon: 'youtube' %}
+              <small class="social-icon__text">{{ settings.social_youtube_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_vimeo_link != blank %}
+            <a class="block social-icon social-icon-vimeo" href="{{ settings.social_vimeo_link | escape }}">
+              {% render 'social-icons' with icon: 'vimeo' %}
+              <small class="social-icon__text">{{ settings.social_vimeo_caption }}</small>
+            </a>
+          {% endif %}
+
+          {% if settings.social_tiktok_link != blank %}
+            <a class="block social-icon social-icon-tiktok" href="{{ settings.social_tiktok_link | escape }}">
+              {% render 'social-icons' with icon: 'tiktok' %}
+              <small class="social-icon__text">{{ settings.social_tiktok_caption }}</small>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="site-footer__copyright background-color-dark-navy color-white">
+    <div class="page-width page-padding site-footer__copyright-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col xs7 no-padding">
+            {% if section.blocks.size > 0 %}
+
+              {{ 'general.footer.youre_in' | t }}
+
+              {%- assign this_shop = shop.permanent_domain -%}
+
+              {% case this_shop %}
+                {% when 'koin-uk.myshopify.com' %}
+                {%- assign this_shop_name = 'United Kingdom' -%}
+                {% when 'koin-eu.myshopify.com' %}
+                {%- assign this_shop_name = 'European Union' -%}
+                {% else %}
+                {%- assign this_shop_name = 'Rest of World' -%}
+              {% endcase %}
+
+              <div class="icon-this-country inline-block">
+                {% render 'flags' with icon: this_shop_name %}
+              </div>
+
+              <div
+                class="change-country-trigger color-blue border-left"
+                id="change-country-trigger"
+                js-popup="trigger"
+                data-popup-id="change-country-popup"
+              >
+                {{ 'general.footer.change' | t }}
+              </div>
+              <div
+                class="change-country-popup popup critical-hide"
+                id="change-country-popup"
+                js-popup="popup"
+                js-popup-id="change-country-popup"
+              >
+                <div class="popup__wrapper">
+                  <div class="popup__content background-color-white color-black">
+                    <div class="relative">
+                      <div
+                        class="popup__close"
+                        js-popup="close"
+                      >{% render 'icons' with icon: 'close' %}</div>
+
+                      <div class="change-country-popup__header">
+                        <p class="h3 bold color-navy no-margin-bottom">{{ 'general.footer.select_your_country' | t }}</h3>
+                        <hr class="border-color-light-grey">
+                      </div>
+
+                      <div class="change-country-popup__body">
+                        <p class="bold">{{ 'general.footer.country' | t }}</p>
+
+                        <div class="custom-select custom-select-style custom-select-style--flag-style">
+                          <select data-select-type="country" js-select="country">
+                            {% for block in section.blocks %}
+                              {% assign this_link_icon = block.settings.country | downcase | replace: ' ', '-' %}
+                              <option value="{{ block.settings.country_prefix }}" data-flag-footer="{{ this_link_icon }}">{{ block.settings.country }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+                      {% comment %}
+                      <div class="custom-select custom-select-style">
+                        <div class="select-selected">United Kingdom</div>
+                        <div class="select-items select-hide">
+                          <div>Ireland</div>
+                        <div>
+                      </div>
+                      {% endcomment %}
+
+                      <button
+                        class="button change-country-button"
+                        disabled
+                        js-select="button"
+                      >{{ 'general.footer.update' | t }}</button>
+
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="popup-overlay background-opal-black"
+                  js-popup="close"
+                ></div>
+              </div>
+
+              {% case this_shop %}
+                {% when 'koin-uk.myshopify.com' %}
+                {% render 'split-payment-small-popups' %}
+              {% endcase %}
+
+            {% endif %}
+          </div>
+          <div class="col xs5 text-right no-padding">
+            &copy; {{ 'now' | date: "%Y" }} Koin Limited
+          </div>
+    </div>
+  </div>
+  <div
+    class="popup-overlay background-opal-black popup-overlay--navigation"
+    js-header-nav="overlay"
+  ></div>
+
+  <div class="hide" data-rebuy-carousel-section="{{ settings.cart_feed_id }}">
+    <div
+      js-smart-cart-carousel="wrapper"
+      class="rebuy-cart__carousel hide"
+    >
+      <h5 class="h3 rebuy-cart__carousel-title">{{ 'cart.drawer.people_also_bought' | t }}</h5>
+      <div
+        data-rebuy-id="{{ settings.cart_feed_id }}"
+        data-rebuy-carousel="{{ settings.cart_feed_id }}"
+        class="rebuy-feed carousel-hide carousel-hide--hide carousel-hide--transition swiper-outer-container--cart"
+        v-cloak
+      >
+        {% render 'rebuy-script' %}
+      </div>
+    </div>
+  </div>
+
+  {% comment %}
+    This needs to remain for the translations to work
+  {% endcomment %}
+  <div class="hide">
+    
+  </div>
+
+</footer>
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "picture_link_title_1",
+        "label": "Picture link title 1",
+        "default": "Manage account"
+      },
+      {
+        "type": "image_picker",
+        "id": "picture_link_image_1",
+        "label": "Picture link image 1"
+      },
+      {
+        "type": "text",
+        "id": "picture_link_text_1",
+        "label": "Picture link text 1",
+        "default": "Manage account"
+      },
+      {
+        "type": "url",
+        "id": "picture_link_1",
+        "label": "Picture link URL 1"
+      },
+      {
+        "type": "text",
+        "id": "picture_link_title_2",
+        "label": "Picture link title 2",
+        "default": "Manage account"
+      },
+      {
+        "type": "image_picker",
+        "id": "picture_link_image_2",
+        "label": "Picture link image 2"
+      },
+      {
+        "type": "text",
+        "id": "picture_link_text_2",
+        "label": "Picture link text 2",
+        "default": "Manage account"
+      },
+      {
+        "type": "url",
+        "id": "picture_link_2",
+        "label": "Picture link URL 2"
+      },
+      {
+        "type": "text",
+        "id": "picture_link_title_3",
+        "label": "Picture link title 3",
+        "default": "Manage account"
+      },
+      {
+        "type": "image_picker",
+        "id": "picture_link_image_3",
+        "label": "Picture link image 3"
+      },
+      {
+        "type": "text",
+        "id": "picture_link_text_3",
+        "label": "Picture link text 3",
+        "default": "Manage account"
+      },
+      {
+        "type": "url",
+        "id": "picture_link_3",
+        "label": "Picture link URL 3"
+      },
+      {
+        "type": "richtext",
+        "id": "mobile_feedback_button_intro",
+        "label": "Mobile feedback intro"
+      },
+      {
+        "type": "text",
+        "id": "mobile_feedback_button_text",
+        "label": "Mobile feedback button text",
+        "default": "Leave feedback"
+      },
+      {
+        "type": "url",
+        "id": "mobile_feedback_url",
+        "label": "Mobile feedback url"
+      }
+    ],
+      "blocks": [
+        {
+          "type": "logo_image",
+          "name": "Country",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Country label (for admin purposes only)"
+            },
+            {
+              "type": "select",
+              "id": "country",
+              "label": "Select country",
+              "options": [
+                {
+                  "value": "United Kingdom",
+                  "label": "United Kingdom"
+                },
+                {
+                  "value": "European Union",
+                  "label": "European Union"
+                },
+                {
+                  "value": "Rest of World",
+                  "label": "Rest of World"
+                },
+                {
+                  "value": "USA",
+                  "label": "USA"
+                },
+                {
+                  "value": "Canada",
+                  "label": "Canada"
+                },
+                {
+                  "value": "Germany",
+                  "label": "Germany"
+                },
+                {
+                  "value": "Spain",
+                  "label": "Spain"
+                },
+                {
+                  "value": "Austria",
+                  "label": "Austria"
+                },
+                {
+                  "value": "Australia",
+                  "label": "Australia"
+                },
+                {
+                  "value": "Italy",
+                  "label": "Italy"
+                },
+                {
+                  "value": "France",
+                  "label": "France"
+                },
+                {
+                  "value": "Netherlands",
+                  "label": "Netherlands"
+                }
+              ],
+              "default": "United Kingdom"
+            },
+            {
+              "type": "text",
+              "id": "country_prefix",
+              "label": "Country prefix"
+            }
+          ]
+        }
+      ]
+  }
+{% endschema %}

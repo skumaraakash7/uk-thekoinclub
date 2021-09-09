@@ -1,0 +1,207 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Slideshow
+  - Main banner slideshow section
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="slideshow">
+  <div class="">
+    {% if section.blocks.size > 0 %}
+      <div
+          class="slideshow__container border-top border-color-yellow"
+          js-slideshow="outer-container"
+          data-slide-count="{{ section.blocks.size }}"
+      >
+        <div
+            id="slideshow__outerwrap-{{ section.id }}"
+            class="slideshow__container relative"
+        >
+          <ul class="slideshow__slides swiper-wrapper list-style-none">
+              {% for block in section.blocks %}
+                  <li
+                    class="slideshow__slide swiper-slide"
+                  >
+                      <a href="{{ block.settings.url }}" class="slideshow__link block">
+                          {% if block.settings.mp4_url != '' %}
+                            <div class="slideshow__video-wrapper relative">
+                              <video class="slideshow__video hide--m" loop muted autoplay>
+                                <source src="{{ block.settings.mp4_url }}" type="video/mp4" />
+                              </video>
+                            </div>
+                          {% else %}
+                            {% render 'responsive-image' with
+                              image: block.settings.desktop_image,
+                              max_width: 1920,
+                              max_height: 1920,
+                              wrapper_class: 'slideshow__desktop-image hide--m'
+                            %}
+                          {% endif %}
+                          {% render 'responsive-image' with
+                              image: block.settings.mobile_image,
+                              max_width: 800,
+                              max_height: 800,
+                              wrapper_class: 'slideshow__mobile-image hide--t  hide--d'
+                          %}
+                        {% if block.settings.video_caption != '' or block.settings.button_text != '' %}
+                          <div class="slideshow__caption-wrapper page-width page-padding flexbox--t {{ block.settings.caption_position }}">
+                            <div class="slideshow__caption text-center relative">
+                              <div class="slideshow__caption--background"
+                                style="background-color: {{ block.settings.background_color }};"
+                              ></div>
+                              <div class="relative">
+                                {% if block.settings.video_caption_heading != '' %}
+                                  <div class="h2 slideshow-caption-heading text-center" style="color: {{ block.settings.text_color }};">
+                                    {{ block.settings.video_caption_heading | strip_html }}
+                                  </div>
+                                {% endif %}
+                                {% if block.settings.line_show %}
+                                  <hr class="caption-line" style="border-color: {{ block.settings.line_color }};">
+                                {% else %}
+                                  <div class="caption-space"></div>
+                                {% endif %}
+                                {% if block.settings.video_caption != '' %}
+                                  <div class="h4 text-center caption-text" style="color: {{ block.settings.text_color }};">
+                                    {{ block.settings.video_caption | strip_html }}
+                                  </div>
+                                {% endif %}
+                                {% if block.settings.button_text != '' %}
+                                  <div class="button no-margin-bottom {{ block.settings.button_color }}">
+                                    {{ block.settings.button_text }}
+                                  </div>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </a>
+                  </li>
+              {% endfor %}
+          </ul>
+          {% render 'slideshow-controls' with slides_page: 'section' %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "settings": [
+
+    ],
+    "name": "Slideshow images",
+      "max_blocks": 5,
+      "blocks": [
+        {
+          "type": "image",
+          "name": "Slide",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "desktop_image",
+              "label": "Desktop image"
+            },
+            {
+              "type": "image_picker",
+              "id": "mobile_image",
+              "label": "Mobile image"
+            },
+            {
+              "type": "text",
+              "id": "mp4_url",
+              "label": "MP4 Url",
+              "info": "For desktop only, ensure a mobile image is still added"
+            },
+            {
+              "type": "text",
+              "id": "video_caption_heading",
+              "label": "Heading"
+            },
+            {
+              "type": "richtext",
+              "id": "video_caption",
+              "label": "Caption"
+            },
+            {
+              "type": "text",
+              "id": "button_text",
+              "label": "Button text"
+            },
+            {
+              "type": "select",
+              "id": "caption_position",
+              "label": "Position",
+              "options": [
+                {
+                  "value": "slideshow__caption-wrapper--right",
+                  "label": "Right"
+                },
+                {
+                  "value": "slideshow__caption-wrapper--left",
+                  "label": "Left"
+                },
+                {
+                  "value": "slideshow__caption-wrapper--center",
+                  "label": "Center"
+                }
+              ],
+              "default": "slideshow__caption-wrapper--right"
+            },
+            {
+              "type": "url",
+              "id": "url",
+              "label": "Link"
+            },
+            {
+              "type": "color",
+              "id": "background_color",
+              "label": "Background colour",
+              "default": "#1d1d1d"
+            },
+            {
+              "type": "color",
+              "id": "text_color",
+              "label": "Text colour",
+              "default": "#ffffff"
+            },
+            {
+              "type": "select",
+              "id": "button_color",
+              "label": "Button colour",
+              "options": [
+                {
+                  "value": "button--blue",
+                  "label": "Blue"
+                },
+                {
+                  "value": "button--yellow",
+                  "label": "Yellow"
+                },
+                {
+                  "value": "button--grey",
+                  "label": "Grey"
+                }
+              ],
+              "default": "button--blue"
+            },
+            {
+              "type": "checkbox",
+              "id": "line_show",
+              "label": "Show line"
+            },
+            {
+              "type": "color",
+              "id": "line_color",
+              "label": "Line colour",
+              "default": "#408ccc"
+            }
+          ]
+        }
+    ],
+    "presets": [{
+        "name": "Slideshow",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

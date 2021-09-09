@@ -1,0 +1,40 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: ReBuy script
+------------------------------------------------------------------------------
+{% endcomment %}
+
+{% comment %}
+<script id="rebuy-recommended-template" type="text/template">
+{% endcomment %}
+    <div
+        class="featured-collection__carousel-container swiper-outer-container"
+        js-carousel="outer-container-rebuy"
+    >
+        <div class="text-right swiper-buttons inline-block-wrapper">
+            <div
+                class="swiper-button-prev swiper-button-custom"
+            >
+                {% render 'icons' with icon: 'chevron round' %}
+            </div>
+            <div
+                class="swiper-button-next swiper-button-custom"
+            >
+                {% render 'icons' with icon: 'chevron round' %}
+            </div>
+        </div>
+        <div
+            id="FeaturedCollection-{{ section.id }}"
+            class="featured-collection__carousel swiper-container"
+        >
+            <ul class="swiper-wrapper">
+                <li class="featured-collection__slide swiper-slide" v-for="(product, index) in products" v-bind:class="[product.handle, 'product-id-' + product.id, cartHasProduct(product) ? 'cart-has-item' : '']">
+                    {% render 'product-card-rebuy' %}
+                </li>
+            </ul>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+{% comment %}
+</script>
+{% endcomment %}

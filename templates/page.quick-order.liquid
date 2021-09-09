@@ -1,0 +1,39 @@
+{% section 'quick-order-codes' %}
+<div class="vertical-padding page-width page-width--small quick-order">
+    <div class="page-width--login">
+        <h1 class="h3 color-navy">Quick order</h1>
+
+        <label for="promo-lookup" class="color-navy bold">
+            Enter your reference code below
+        </label>
+        <input type="text"
+            name="promo-lookup"
+            id="promo-lookup"
+            class="quick-order__promo-lookup"
+            js-promo="promo-lookup"
+            placeholder="Reference code"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autofocus
+        >
+        <div
+            class="color-red color-navy bold"
+            js-promo="error"
+            data-error-message="Wrong or expired reference code, please try again"
+        >
+            &nbsp;
+        </div>
+        <button
+            id="promo-lookup-btn"
+            class="button button--wide quick-order__promo-lookup-btn"
+            js-promo="promo-lookup-btn"
+            js-cart="add"
+        >
+            <span class="button__preloading">Check</span>
+            <span class="button__loading">
+                {% render 'icons' with icon: 'free-returns' %}
+            </span>
+        </button>
+    </div>
+</div>

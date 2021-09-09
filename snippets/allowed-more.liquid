@@ -1,0 +1,19 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Allowed more
+----------------------------------------------------------------------------
+{% endcomment %}
+
+{% for tag in product.tags %}
+    {% if tag contains 'MAX ORDER 1' %}
+        {% assign allowed_multiples = false %}
+    {% endif %}
+{% endfor %}
+
+{% if allowed_multiples == false %}
+    {% for item in cart.items %}
+        {% if item.product.id == product.id %}
+            {% assign allowed_more = false %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

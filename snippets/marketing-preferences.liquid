@@ -1,0 +1,48 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Marketing preferences
+  - Change marketing preferences in the cart
+----------------------------------------------------------------------------
+{% endcomment %}
+
+<div class="marketing-preferences">
+
+    <div
+        class="marketing-preferences__accordion accordion"
+        js-accordion="accordion"
+    >
+        <h6
+            class="p relative accordion-trigger marketing-preferences__trigger"
+            js-accordion="accordion-trigger"
+        >
+            Update your marketing preferences
+            <div class="accordion-icon">
+            <div class="accordion-icon__plus-minus accordion-icon__plus background-color-black"></div>
+            <div class="accordion-icon__plus-minus accordion-icon__minus background-color-black"></div>
+            </div>
+        </h6>
+        <hr class="color-black">
+        <div class="accordion-content">
+            <ul class="list-style-none marketing-preferences__list p">
+                <li class="marketing-preferences__list-item">
+                    <input type="checkbox" checked id="marketing-email" js-marketing="email" js-marketing>
+                    <label>
+                    Email
+                    </label>
+                </li>
+                <li class="marketing-preferences__list-item">
+                    <input type="checkbox" checked id="marketing-sms" js-marketing="sms" js-marketing>
+                    <label>
+                    SMS
+                    </label>
+                </li>
+                <li class="marketing-preferences__list-item">
+                    <input type="checkbox" checked  id="marketing-post" js-marketing="post" js-marketing>
+                    <label>
+                    Post
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

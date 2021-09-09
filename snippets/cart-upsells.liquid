@@ -1,0 +1,15 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Cart upsells
+  - Extra products in the cart page
+------------------------------------------------------------------------------
+{% endcomment %}
+<div class="hide" data-rebuy-carousel-section="{{ section.settings.feed_id | escape  }}">
+  {%- if section.settings.title != blank -%}
+      <h6 class="bold color-navy h6 upsells-title">{{ section.settings.title | escape }}</h6>
+  {%- endif -%}
+
+  <div data-rebuy-id="{{ section.settings.feed_id | escape }}" class="rebuy-feed" v-cloak>
+    {% render 'rebuy-script-mini' %}
+  </div>
+</div>

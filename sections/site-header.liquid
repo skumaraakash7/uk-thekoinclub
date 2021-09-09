@@ -1,0 +1,507 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Section: Header
+----------------------------------------------------------------------------
+{% endcomment %}
+<div
+  class="site-header__track-help"
+  js-site-header="track-help"
+>
+  <div class="page-width page-padding">
+    <div class="">
+      <ul class="list-style-none text-right inline-block-wrapper">
+        {% for link in linklists['top-micro-nav'].links %}
+          <li class="inline-block border-left {% if link.active %}current-menu-item{% endif %} {% if forloop.last %}menu-item-last{% endif %}">
+            <a href="{{ link.url }}" target="_blank" class="small bold color-grey vertical-align-middle">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+        <li class="inline-block border-left">
+          <div class="site-header__country-selector site-header__country-selector--desktop cursor-default bold small vertical-align-middle no-margin-bottom color-grey">
+            {% render 'change-country-trigger' %}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="site-header__main background-color-navy color-white">
+  <div class="page-width page-padding">
+    <div class="relative flexbox--t space-between align-items-center site-header__main-inner">
+      <div
+        class="mobile-nav-trigger inline-block relative"
+        js-mobile-nav="trigger"
+        js-mobile-menu-open="navigation"
+      >
+        <div class="background-color-white mobile-nav-trigger__top"></div>
+        <div class="background-color-white mobile-nav-trigger__middle"></div>
+        <div class="background-color-white mobile-nav-trigger__bottom"></div>
+      </div>
+      <a href="/" class="home-link inline-block">
+        {% render 'logos' with icon: 'logo-tkc-white' %}
+      </a>
+      <div class="site-header__main-search hide--m">
+        <div class="site-search relative">
+          <input
+            id="site-search__term"
+            class="site-search__term input--default-style"
+            autocapitalize="off"
+            autocorrect="off"
+            placeholder="{{ 'general.search.placeholder' | t }}"
+            required
+            type="email"
+          >
+          <button
+            id="site-search__submit"
+            class="site-search__submit"
+          >
+            {% render 'icons' with icon: 'search' %}
+          </button>
+        </div>
+      </div>
+      <ul class="site-header__main-account-links no-margin list-style-none text-right inline-block-wrapper">
+        <li
+          class="inline-block p caps hide--t hide--d site-header__main-account-search"
+          js-mobile-nav="trigger"
+          js-mobile-menu-open="search"
+        >
+          {% render 'icons' with icon: 'search' %}
+        </li>
+        <li class="inline-block p caps site-header__main-account-account">
+          <a href="/account/" class="underline-none">{% render 'icons' with icon: 'account' %}</a>
+        </li>
+        <li class="inline-block p caps site-header__main-account-wishlist">
+          <a href="/pages/wishlist/" class="link-to-wishlist-page block relative">
+            {% render 'icons' with icon: 'favourite' %}
+            <span class="swym-wishlist-header-counter h6 bold no-margin-bottom background-color-blue text-center block hide">0</span>
+          </a>
+        </li>
+        <li class="inline-block p caps site-header__main-account-link-cart">
+          {% assign cart_item_counter = 0 %}
+          {% for item in cart.items %}
+            {% assign product_type = item.product.type | handleize %}
+            {% unless product_type == 'add-on' %}
+              {% assign cart_item_counter = cart_item_counter | plus: item.quantity %}
+            {% endunless %}
+          {% endfor %}
+          {%- include "go-cart-button" -%}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% render 'navigation-desktop' %}
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+
+    ],
+      "blocks": [
+        {
+          "type": "nav",
+          "name": "Navigation tab",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Tab title"
+            },
+            {
+              "type": "url",
+              "id": "main_link",
+              "label": "Main link"
+            },
+            {
+              "type": "color",
+              "id": "background_color",
+              "label": "Tab title colour"
+            },
+            {
+              "type": "header",
+              "content": "Nav list 1"
+            },
+            {
+              "type": "text",
+              "id": "link_list_1_title",
+              "label": "Nav list 1 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_1",
+              "label": "Nav list 1"
+            },
+            {
+              "type": "select",
+              "id": "link_list_type_1",
+              "label": "Nav list type 1",
+              "options": [
+                {
+                  "value": "off",
+                  "label": "Off"
+                },
+                {
+                  "value": "normal",
+                  "label": "Normal"
+                },
+                {
+                  "value": "icons",
+                  "label": "Icons"
+                },
+                {
+                  "value": "logos",
+                  "label": "Logos"
+                }
+              ],
+              "default": "off"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_1a",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_1a",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_1a",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_1a",
+              "label": "Collection image"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_1b",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_1b",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_1b",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_1b",
+              "label": "Collection image"
+            },
+            {
+              "type": "header",
+              "content": "Nav list 2"
+            },
+            {
+              "type": "text",
+              "id": "link_list_2_title",
+              "label": "Nav list 2 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_2",
+              "label": "Nav list 2"
+            },
+            {
+              "type": "select",
+              "id": "link_list_type_2",
+              "label": "Nav list type 2",
+              "options": [
+                {
+                  "value": "off",
+                  "label": "Off"
+                },
+                {
+                  "value": "normal",
+                  "label": "Normal"
+                },
+                {
+                  "value": "icons",
+                  "label": "Icons"
+                },
+                {
+                  "value": "logos",
+                  "label": "Logos"
+                }
+              ],
+              "default": "off"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_2a",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_2a",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_2a",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_2a",
+              "label": "Collection image"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_2b",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_2b",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_2b",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_2b",
+              "label": "Collection image"
+            },
+            {
+              "type": "header",
+              "content": "Nav list 3"
+            },
+            {
+              "type": "text",
+              "id": "link_list_3_title",
+              "label": "Nav list 3 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_3",
+              "label": "Nav list 3"
+            },
+            {
+              "type": "select",
+              "id": "link_list_type_3",
+              "label": "Nav list type 3",
+              "options": [
+                {
+                  "value": "off",
+                  "label": "Off"
+                },
+                {
+                  "value": "normal",
+                  "label": "Normal"
+                },
+                {
+                  "value": "icons",
+                  "label": "Icons"
+                },
+                {
+                  "value": "logos",
+                  "label": "Logos"
+                }
+              ],
+              "default": "off"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_3a",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_3a",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_3a",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_3a",
+              "label": "Collection image"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_3b",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_3b",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_3b",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_3b",
+              "label": "Collection image"
+            },
+            {
+              "type": "header",
+              "content": "Nav list 4"
+            },
+            {
+              "type": "text",
+              "id": "link_list_4_title",
+              "label": "Nav list 4 title"
+            },
+            {
+              "type": "link_list",
+              "id": "link_list_4",
+              "label": "Nav list 4"
+            },
+            {
+              "type": "select",
+              "id": "link_list_type_4",
+              "label": "Nav list type 4",
+              "options": [
+                {
+                  "value": "off",
+                  "label": "Off"
+                },
+                {
+                  "value": "normal",
+                  "label": "Normal"
+                },
+                {
+                  "value": "icons",
+                  "label": "Icons"
+                },
+                {
+                  "value": "logos",
+                  "label": "Logos"
+                }
+              ],
+              "default": "off"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_4a",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_4a",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_4a",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_4a",
+              "label": "Collection image"
+            },
+            {
+              "type": "url",
+              "id": "featured_collection_4b",
+              "label": "Featured collection"
+            },
+            {
+              "type": "text",
+              "id": "featured_collection_image_caption_4b",
+              "label": "Collection caption"
+            },
+            {
+              "type": "color",
+              "id": "featured_collection_image_caption_color_4b",
+              "label": "Collection caption colour"
+            },
+            {
+              "type": "image_picker",
+              "id": "featured_collection_image_4b",
+              "label": "Collection image"
+            }
+          ]
+        },
+        {
+          "type": "logo_image",
+          "name": "Country",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Country label (for admin purposes only)"
+            },
+            {
+              "type": "select",
+              "id": "country",
+              "label": "Select country",
+              "options": [
+                {
+                  "value": "United Kingdom",
+                  "label": "United Kingdom"
+                },
+                {
+                  "value": "European Union",
+                  "label": "European Union"
+                },
+                {
+                  "value": "Rest of World",
+                  "label": "Rest of World"
+                },
+                {
+                  "value": "USA",
+                  "label": "USA"
+                },
+                {
+                  "value": "Canada",
+                  "label": "Canada"
+                },
+                {
+                  "value": "Germany",
+                  "label": "Germany"
+                },
+                {
+                  "value": "Spain",
+                  "label": "Spain"
+                },
+                {
+                  "value": "Austria",
+                  "label": "Austria"
+                },
+                {
+                  "value": "Australia",
+                  "label": "Australia"
+                },
+                {
+                  "value": "Italy",
+                  "label": "Italy"
+                },
+                {
+                  "value": "France",
+                  "label": "France"
+                },
+                {
+                  "value": "Netherlands",
+                  "label": "Netherlands"
+                }
+              ],
+              "default": "United Kingdom"
+            },
+            {
+              "type": "text",
+              "id": "country_prefix",
+              "label": "Country prefix"
+            }
+          ]
+        }
+      ]
+  }
+{% endschema %}

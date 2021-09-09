@@ -1,0 +1,46 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Blue banner
+  - Blue banner section
+------------------------------------------------------------------------------
+{% endcomment %}
+<section class="blue-banner vertical-padding vertical-padding--small">
+  <div class="relative">
+    <div class="background-color-sky blue-banner__background">
+      <div class="background-color-sky blue-banner__left-infill"></div>
+      <div class="background-color-sky blue-banner__right-infill"></div>
+      <div class="blue-banner__text text-center relative">
+        {%- if section.settings.title != blank -%}
+          <h2>{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h3 class="color-grey no-margin">{{ section.settings.title | escape }}</h3>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Blue banner",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Blue banner heading"
+      },
+      {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub heading",
+        "default": "Blue banner sub heading"
+      }
+    ],
+    "presets": [{
+        "name": "Blue banner",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

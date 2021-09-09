@@ -1,0 +1,49 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Product card rebuy
+  - Uses the card component as the base
+------------------------------------------------------------------------------
+{% endcomment %}
+<a
+    class="product-card-mini__link block relative"
+    v-bind:href="learnMoreURL(product)"
+    v-bind:style="imageStyles"
+    v-on:click="learnMore(product);"
+    v-bind:class="[hasLearnMore() ? 'clickable' : '']"
+>
+
+    <div class="product-card-mini__thumbnail-container relative">
+
+        <div class="product-card-mini__thumbnail">
+            <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+        </div>
+
+        <div class="product-card-mini__thumbnail--hover">
+            <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+        </div>
+
+    </div>
+</a>
+
+<div class="product-card-mini__footer">
+    <h3 class="h6 bold product-card-mini__title" v-html="product.title"></h3>
+    {% render 'product-price-rebuy' %}
+</div>
+
+<form action="/cart/add" method="post" enctype="multipart/form-data" v-bind:id="'add-to-cart-' + product.handle + '-' + id + '-' + index">
+    <input type="hidden" name="id" v-bind:value="product.selected_variant.id"/>
+    <input type="hidden" min="1" type="number" name="quantity" value="1"/>
+    <button
+    type="submit"
+    name="add"
+    data-add-to-cart
+    class="js-go-cart-add-to-cart button product-form-cart-submit product-card-mini__button"
+    >
+        <template v-if="(variantAvailable(product.selected_variant))">
+            {{- 'products.product.add' | t -}}
+        </template>
+        <template v-if="!(variantAvailable(product.selected_variant))">
+            {{- 'products.product.sold_out' | t -}}
+        </template>
+    </button>
+</form>

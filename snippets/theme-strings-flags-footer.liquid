@@ -1,0 +1,13 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Theme strings flags
+  - Assign global variables for use in JavaScript.
+----------------------------------------------------------------------------
+{% endcomment %}
+<script>
+	var flagsFooter = {
+        {% for block in section.blocks %}
+        {%- assign this_link_icon = block.settings.country | downcase | replace: ' ', '-' -%}'{{ this_link_icon }}':'{%- render "flags" with icon: block.settings.country -%}',
+        {% endfor %}
+    };
+</script>

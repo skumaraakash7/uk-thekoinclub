@@ -1,0 +1,240 @@
+@charset "UTF-8";
+/*
+ * Koin Club
+ * -----------------------------------------------------------------------------
+ * Checkout SCSS
+ *
+ */
+/**
+  * Checkout shared components
+  */
+/**
+ * Global: queries
+ * -----------------------------------------------------------------------------
+ * Primary grid system based on materialize.css.
+ * - https://sass-mq.github.io/sass-mq
+ *
+ * Why we use use em values for media queries.
+ * https://zellwk.com/blog/media-query-units/
+ */
+/**
+ * Global: Colors
+ * -----------------------------------------------------------------------------
+ * Brand colors
+ *
+ */
+/* Badge colors */
+/**
+ * Config: Animation
+ * -----------------------------------------------------------------------------
+ * Variables and mixins for consistent animation patterns.
+ *
+ */
+/**
+ * Timing.
+ */
+/**
+ * Easing.
+ */
+/**
+ * Presets.
+ * - Predefined presets for general use.
+ */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: scaleY(0); }
+  to {
+    opacity: 1;
+    transform: scaleY(1); } }
+
+@keyframes heart {
+  0%,
+  45%,
+  55%,
+  to {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  30% {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2); }
+  70% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); } }
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(-359deg); } }
+
+/**
+ * Global: Sizing
+ * -----------------------------------------------------------------------------
+ * Consistent sizing of objects and spaces
+ * 1rem = 16px
+ */
+/**
+ * Component: Accordion
+ * -----------------------------------------------------------------------------
+ * Reusable styling for accordion
+ *
+ */
+.accordion .accordion-trigger {
+  cursor: pointer;
+  white-space: nowrap;
+  padding-right: 30px;
+  margin-bottom: 10px; }
+
+.accordion .collection-search__filter-trigger .accordion-icon {
+  top: 5px; }
+
+.accordion .accordion-icon {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  width: 15px;
+  height: 15px; }
+  .accordion .accordion-icon__plus-minus {
+    height: 1px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    margin-top: -1px; }
+  .accordion .accordion-icon__plus {
+    transform: rotate(-90deg);
+    transition: transform 0.2s cubic-bezier(0.42, 0, 1, 1); }
+  .accordion .accordion-icon--chevron {
+    width: 18px;
+    height: 25px;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%); }
+  .accordion .accordion-icon .icon--chevron {
+    fill: #408ccc;
+    transform: rotate(90deg);
+    transition: transform 0.2s cubic-bezier(0.42, 0, 1, 1);
+    width: 100%;
+    height: 100%;
+    display: block; }
+
+.accordion .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.42, 0, 1, 1); }
+
+.accordion.is-active .accordion-icon__plus {
+  transform: rotate(0deg); }
+
+.accordion.is-active .icon--chevron {
+  transform: rotate(-90deg); }
+
+.accordion.is-active .accordion-content {
+  max-height: 500px; }
+
+/**
+ * Section: Checkout
+ * -----------------------------------------------------------------------------
+ * Checkout page
+ *
+ */
+.marketing-preferences {
+  padding-top: 1rem;
+  /**
+ * Base: Checkbox
+ * -----------------------------------------------------------------------------
+ * Form resets, browser normalizing and base styling.
+ *
+ */
+  /**
+  * Additional styles to reduce conflicts
+  */ }
+  .marketing-preferences label {
+    top: 2px;
+    position: relative; }
+  .marketing-preferences input[type="checkbox"],
+  .marketing-preferences input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    margin-right: 0.5rem;
+    border: solid 1px #1d1d1d;
+    width: 17px;
+    height: 17px;
+    position: relative;
+    vertical-align: middle;
+    color: #408ccc; }
+    .marketing-preferences input[type="checkbox"]:focus,
+    .marketing-preferences input[type="radio"]:focus {
+      outline: none; }
+  .marketing-preferences input[type="checkbox"]:checked:before {
+    font-family: "Roboto", sans-serif;
+    position: absolute;
+    content: "✔";
+    display: block;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+    line-height: 100%;
+    text-align: center;
+    color: #408ccc; }
+  .marketing-preferences .background-color-black {
+    background: #1d1d1d; }
+  .marketing-preferences .relative {
+    position: relative; }
+  .marketing-preferences hr {
+    border: none;
+    border-bottom: 1px solid; }
+  .marketing-preferences .p {
+    font-size: 14px;
+    line-height: 2em;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0em;
+    margin-bottom: 0.75em;
+    margin-top: 0; }
+
+.product__description__selling_plan.order-summary__small-text {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  padding: 0 !important; }
+
+/**
+ * Section: Thank you
+ * -----------------------------------------------------------------------------
+ * Thanks you page
+ *
+ */
+.RCT .style1_timer_box {
+  background-color: #eebf44 !important;
+  color: #000000 !important;
+  border: none !important;
+  font-weight: 700 !important;
+  padding: 1rem 0.25rem !important; }
+
+.RCT .product-price,
+.RCT .product-title.product-price,
+.RCT .product-price.display-discount-price {
+  color: #1d1d1d !important;
+  font-weight: 700; }
+
+.RCT .product-deatil-section .buy-now-btn {
+  width: 100% !important;
+  padding: 14px 13px 11px 13px !important;
+  margin: 1.5px 0 0 0 !important;
+  min-width: 100% !important; }
+
+.RCT .countdown-section {
+  background-color: #eebf44 !important;
+  color: #000000 !important;
+  border: none !important;
+  font-weight: 700 !important;
+  min-width: 40px; }
+

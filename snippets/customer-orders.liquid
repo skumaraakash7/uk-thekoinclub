@@ -1,0 +1,28 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Customer orders
+------------------------------------------------------------------------------
+{% endcomment %}
+<h2 class="h3">{{ 'customer.orders.title' | t }}</h2>
+{% paginate customer.orders by 999 %}
+    {% if customer.orders.size != 0 %}
+
+        {% assign card_counter = 0 %}
+
+        {% for order in customer.orders %}
+
+            {% assign card_counter = card_counter | plus: 1 %}
+            {% render 'customer-order' with order: order, type: 'archive' %}
+
+        {% endfor %}
+
+    {% else %}
+    <p>{{ 'customer.orders.none' | t }}</p>
+    {% endif %}
+
+    {% if paginate.pages > 1 %}
+        {% render 'pagination' %}
+    {% else %}
+    {% endif %}
+
+{% endpaginate %}

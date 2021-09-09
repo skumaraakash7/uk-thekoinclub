@@ -1,0 +1,26 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Product price rebuy
+  - Used on the product card and in the product form.
+----------------------------------------------------------------------------
+{% endcomment %}
+<div class="product-price" js-recommended-products="productPrices" data-price-wrapper>
+    <div class="">
+        <div v-if="variantOnSale(product, product.selected_variant)">
+        <s
+            class="product-price__sale-price bold h4"
+            v-html="formatMoney(variantCompareAtPrice(product, product.selected_variant))"
+        ></s>
+        <span
+            class="color-red bold h4"
+            v-html="formatMoney(variantPrice(product, product.selected_variant))"
+        ></span>
+        </div>
+        <div v-if="!(variantOnSale(product, product.selected_variant))">
+            <span
+                class="h4 bold"
+                v-html="formatMoney(variantPrice(product, product.selected_variant))"
+            ></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Customer order details
+------------------------------------------------------------------------------
+{% endcomment %}
+<div class="line-item flexbox">
+
+    <div class="line-item__image">
+        <a
+            class="line-item__image-link block relative"
+            href="{{ line_item.product.url }}"
+        >
+            {% render 'responsive-image' with
+                image: line_item.product.featured_image,
+                max_width: 700,
+                max_height: 800,
+                wrapper_class: 'product-card__thumbnail line-item__image-thumbnail'
+            %}
+
+            {% render 'responsive-image' with
+                image: line_item.product.images[1],
+                max_width: 700,
+                max_height: 800,
+                wrapper_class: 'product-card__thumbnail--hover line-item__image-thumbnail--hover'
+            %}
+        </a>
+    </div>
+
+    <div class="line-item__details">
+        <h6 class="h6 grey line-item__details-title">{{ line_item.title | link_to: line_item.product.url }}
+        {% if line_item.product.type == 'Subscription' %}
+            - {{ 'products.product.subscription' | t }}
+        {% endif %}
+        </h6>
+
+        <h6 class="h6 grey line-item__details-quantity">{{ 'customer.order.quantity' | t }}: {{ line_item.quantity }} <strong>{{ line_item.quantity | times: line_item.price | money }}</strong></h6>
+    </div>
+
+    <div class="line-item__actions">
+        {% if line_item.fulfillment %}
+            {% if line_item.fulfillment.tracking_url != blank %}
+                <a
+                    class="button"
+                    href="{{ line_item.fulfillment.tracking_url }}"
+                    target="_blank"
+                >
+                    {{ 'customer.order.track_shipment' | t }}
+                </a>
+            {% endif %}
+        {% endif %}
+        {% if line_item.product.type == 'Subscription' %}
+            <a
+                class="button"
+                href="/tools/recurring/login"
+                target="_blank"
+            >
+                {{ 'customer.order.manage_subscription' | t }}
+            </a>
+        {% endif %}
+        <a
+            class="button"
+            data-href="{{ line_item.product.url }}"
+            href="{{ order.customer_url }}"
+            target="_blank"
+        >
+            {{ 'customer.order.details' | t }}
+        </a>
+        {% if  order.fulfillment_status_label == 'Fulfilled' %}
+            <a
+                class="button"
+                href="#"
+                target="_blank"
+            >
+                {{ 'customer.order.return' | t }}
+            </a>
+        {% else %}
+            <a
+                class="button"
+                href="https://koinclub.helpdocs.io/article/m5l3289ufd-can-i-amend-an-order-once-ive-placed-it"
+                target="_blank"
+            >
+                {{ 'customer.order.cancel' | t }}
+            </a>
+        {% endif %}
+    </div>
+</div>

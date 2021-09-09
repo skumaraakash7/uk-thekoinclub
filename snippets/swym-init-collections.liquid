@@ -1,0 +1,14 @@
+<script defer>
+  function swymCallbackFn(swat){
+    // your API calls go here
+    document.addEventListener("swym:collections-loaded", function(){
+      swat.initializeActionButtons("body");
+      console.log("Triggered Event, swym collections loaded");
+    })
+  }
+  if(!window.SwymCallbacks){
+    window.SwymCallbacks = [];
+  }
+  window.SwymCallbacks.push(swymCallbackFn);
+
+</script>

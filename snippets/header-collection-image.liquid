@@ -1,0 +1,17 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Header collection image
+  - Reusable collection image component for header
+----------------------------------------------------------------------------
+{% endcomment %}
+<a href="{{ this_collection }}" class="block header-collection-image_link">
+  {% render 'responsive-image' with
+    image: this_image,
+    max_width: 480,
+    max_height: 480,
+    wrapper_class: 'header-collection-image__image'
+  %}
+  <div class="header-collection-image__caption color-white h4 bold no-margin-bottom" style="background-color: {{ this_caption_color }};">
+    {{ this_caption }}
+  </div>
+</a>

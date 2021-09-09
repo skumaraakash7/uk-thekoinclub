@@ -1,0 +1,32 @@
+{% if  shop.metafields.AODLimit.aod_isEnable == "1" %}
+<style>
+    .PrdMsgContainer {        display: flex !important;        align-items: center !important;        justify-content: center !important;        justify-items: center !important;        padding: 10px 0px 10px 0px;    }
+    .PrdMsgContainer img {        height: 30px !important;    }
+
+</style>
+<script>
+    window.aod_total_weight = "{{ cart.total_weight }}";
+    window.aodMsg={{ shop.metafields.AODLimit.aod_cart_messages | json }}
+    window.aod_cart_validate={{ shop.metafields.AODLimit.aod_cart_validate.aod_cart_validate | json }}
+    window.aod_tag_validate={{ shop.metafields.AODLimit.aod_tag_validate | json }}
+    window.aodMoneyFormat={{ shop.money_with_currency_format | json }}
+    window.aodMinMaxLimit = [];
+    window.aodGlobalProductMinMaxLimit = [];
+    window.aodProductTagList = [];
+    {%- for item in cart.items -%}
+  	{%- if item.product.tags != blank -%}
+         window.aodProductTagList.push({"Tags":{{item.product.tags|json}},"id":{{item.product.id}}});
+	{% endif %}
+  	{%- if item.product.metafields.AODLimit.AODLimit != blank %}
+        window.aodMinMaxLimit.push({{item.product.metafields.AODLimit.AODLimit|json}});
+    {%- endif -%}
+
+    {% if item.product.metafields.AODLimit.AODGlobalProductLimit != blank %}
+        window.aodGlobalProductMinMaxLimit.push({{item.product.metafields.AODLimit.AODGlobalProductLimit|json}});
+    {%- endif -%}
+    {%- endfor -%}
+</script>
+<script src="/apps/orderlimit/js/sweetalert2.all.min.js"></script>
+<script src="/apps/orderlimit/js/AODLimit.js?v=1.9" defer="defer"></script>
+
+{% endif %}

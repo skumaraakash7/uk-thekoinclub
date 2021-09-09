@@ -1,0 +1,90 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Section: Rebuy feed
+  - Rebuy feed
+------------------------------------------------------------------------------
+{% endcomment %}
+{% assign rebuy_id = section.settings.feed_id %}
+<section class="vertical-padding vertical-padding--section recommended rebuy-feed {% if section.settings.grey_background %}vertical-padding--with-background background-color-light-grey{% endif %} {% if section.settings.outlet_store %}background-color-lemon{% endif %}">
+  <div class="hide" data-rebuy-carousel-section="{{ rebuy_id }}">
+    {%- if section.settings.title != blank -%}
+      <h3 class="color-navy h3 carousel-title page-width page-padding">{{ section.settings.title | escape }}</h3>
+    {%- endif -%}
+
+    <div class="carousel-color-wrapper {% if section.settings.outlet_store %}background-color-lemon{% endif %}">
+
+      <div class="page-width page-padding">
+        {% if section.settings.outlet_store %}
+          {% render 'icons' with icon: 'outlet store' %}
+        {% endif %}
+
+        {% if section.settings.outlet_caption != blank %}
+          <h4 class="h4 text-center outlet-caption">{{ section.settings.outlet_caption }}</h4>
+        {% endif %}
+
+        <div
+          data-rebuy-id="{{ rebuy_id }}"
+          data-rebuy-carousel="{{ rebuy_id }}"
+          class="rebuy-feed carousel-hide"
+          v-cloak
+        >
+          {% render 'rebuy-script' %}
+        </div>
+
+        {% if section.settings.outlet_store %}
+          <div class="text-center rebuy-feed__button">
+            <a href="{{ section.settings.button_link }}" class="button">Visit Outlet</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "ReBuy feed",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "grey_background",
+        "label": "Grey background?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Recommended"
+      },
+      {
+        "type": "checkbox",
+        "id": "outlet_store",
+        "label": "Outlet store mode?",
+        "default": false,
+        "info": "Ticking this will add a yellow background and the Koin Outlet logo"
+      },
+      {
+        "type": "text",
+        "id": "outlet_caption",
+        "label": "Mini caption",
+        "info": "Generally used for the Outlet store"
+      },
+      {
+        "type": "text",
+        "id": "feed_id",
+        "label": "Feed ID",
+        "default": "6437"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [{
+        "name": "ReBuy feed",
+        "category": "Content"
+    }]
+  }
+{% endschema %}

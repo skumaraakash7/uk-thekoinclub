@@ -1,0 +1,24 @@
+{% comment %}
+------------------------------------------------------------------------------
+  Snippet: Collection card
+  - Uses the collection card component as the base
+------------------------------------------------------------------------------
+{% endcomment %}
+<div
+  class="collection__card"
+>
+  <a href="{{ collection.url }}" class="collection__link block">
+      {% if collection.image != blank or collection.products.first != blank %}
+          {%- assign image_object = collection.image | default: collection.products.first.featured_image -%}
+          {% render 'responsive-image' with
+              image: image_object,
+              max_width: 720,
+              max_height: 720,
+              wrapper_class: 'collection__card-thumbnail'
+          %}
+      {% endif %}
+      {% if show_title %}
+        <h3 class="small text-center collection__card-title no-margin-bottom">{{ collection.title }}</h3>
+      {% endif %}
+  </a>
+</div>

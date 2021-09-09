@@ -1,0 +1,79 @@
+<div class="relative slideshow__slide">
+  {% render 'responsive-image' with
+    image: settings.contact_image,
+    max_width: 1920,
+    max_height: 1000,
+    wrapper_class: 'contact-image slideshow__desktop-image hide--m'
+  %}
+  {% render 'responsive-image' with
+    image: settings.contact_image_mobile,
+    max_width: 1920,
+    max_height: 1000,
+    wrapper_class: 'contact-image slideshow__mobile-image hide--d'
+  %}
+  <div class="slideshow__caption text-center">
+      <div class="h3 color-white text-center">
+        {{ page.title }}
+      </div>
+  </div>
+</div>
+
+<div class="contact-methods border border-color-light-grey">
+  <ul class="list-style-none contact-methods_list">
+    <li class="contact-methods_list-item border-bottom border-color-light-grey p">
+      {{ page.content }}
+    </li>
+    {% section 'contact-methods' %}
+  </ul>
+</div>
+
+
+
+{% form 'contact' %}
+
+  {% if form.posted_successfully? %}
+    <p class="form-success">
+      {{ 'contact.form.post_success' | t }}
+    </p>
+  {% endif %}
+
+  {{ form.errors | default_errors }}
+
+  <label for="ContactFormName">{{ 'contact.form.name' | t }}</label>
+  <input type="text"
+    name="contact[name]"
+    id="ContactFormName"
+    placeholder="{{ 'contact.form.name' | t }}"
+    value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+
+  <label for="ContactFormEmail">{{ 'contact.form.email' | t }}</label>
+  <input type="email"
+    name="contact[email]"
+    id="ContactFormEmail"
+    placeholder="{{ 'contact.form.email' | t }}"
+    value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+    spellcheck="false"
+    autocomplete="off"
+    autocapitalize="off">
+
+  <label for="ContactFormPhone">{{ 'contact.form.phone' | t }}</label>
+  <input type="tel"
+    name="contact[phone]"
+    id="ContactFormPhone"
+    placeholder="{{ 'contact.form.phone' | t }}"
+    value="{% if form[phone] %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+    pattern="[0-9\-]*">
+
+  <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+  <textarea rows="10"
+    name="contact[body]"
+    id="ContactFormMessage"
+    placeholder="{{ 'contact.form.message' | t }}">
+    {%- if form.body -%}
+      {{- form.body -}}
+    {%- endif -%}
+  </textarea>
+
+  <input type="submit" class="button" value="{{ 'contact.form.send' | t }}">
+
+{% endform %}

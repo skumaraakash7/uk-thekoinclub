@@ -1,0 +1,34 @@
+{% comment %}
+  The data-label attributes on <td> elements are mobile-friendly
+  helpers used for responsive-table labels
+{% endcomment %}
+<div class="account-area flexbox--d">
+
+  {% render 'account-sidebar' %}
+
+  <div class="account-area__main border-color-light-grey border">
+
+    <h3>{{ 'customer.order.title' | t: name: order.name }}</h3>
+
+    {% assign card_counter = 0 %}
+    {% assign card_counter = card_counter | plus: 1 %}
+
+    {% render 'customer-order' with type: 'details' %}
+
+    <div class="order-addresses flexbox--t">
+      <div class="order-addresses__address order-addresses__address--billing border-color-light-grey border">
+        <h4>{{ 'customer.order.billing_address' | t }}</h4>
+        <p><strong>{{ 'customer.order.payment_status' | t }}:</strong> {{ order.financial_status_label }}</p>
+        {{ order.billing_address | format_address }}
+      </div>
+
+      <div class="order-addresses__address order-addresses__address--shipping border-color-light-grey border">
+        <h4>{{ 'customer.order.shipping_address' | t }}</h4>
+        <p><strong>{{ 'customer.order.fulfillment_status' | t }}:</strong> {{ order.fulfillment_status_label }}</p>
+        {{ order.shipping_address | format_address }}
+      </div>
+    </div>
+
+  </div>
+
+</div>

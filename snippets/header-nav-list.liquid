@@ -1,0 +1,46 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Header nav list
+  - Reusable nav component
+----------------------------------------------------------------------------
+{% endcomment %}
+{% assign link_count = 0 %}
+{% for link in linklists[this_link_list].links %}
+    {% assign link_count = link_count | plus: 1 %}
+{% endfor %}
+<ul class="list-style-none navigation__nav-list {% if link_count > 7 %}navigation__long-list flexbox flex-wrap-wrap{% endif %}">
+    {% for link in linklists[this_link_list].links %}
+
+        <li class="{% if link.active %}current-menu-item{% endif %} {% if forloop.last %}menu-item-last{% endif %}">
+            <a
+                href="{{ link.url }}"
+                class="h6 color-blue"
+            >
+
+                {% assign this_link_icon_split = link.title | split: '#' %}
+                {% if this_link_icon_split[1] != blank %}
+                    {% assign this_link_icon = this_link_icon_split[1] %}
+                {% elsif this_link_icon_split[1] == 'none' %}
+                    {% assign this_link_icon = this_link_icon_split[1] %}
+                    {% assign this_link_type = 'no icon' %}
+                {% else %}
+                    {% assign this_link_icon = this_link_icon_split[0] %}
+                {% endif %}
+
+                {% assign this_link_icon = this_link_icon | downcase | replace: ' ', '-' %}
+
+                {% if this_link_type == 'icons' %}
+                    {% assign this_link_icon = this_link_icon | replace: '£', '' %}
+                    {% assign this_link_icon = this_link_icon | replace: '&', 'and' %}
+                    {% render 'icons' with icon: this_link_icon %}
+                {% elsif this_link_type == 'logos' %}
+                    {% assign this_link_icon = this_link_icon | replace: '£', '' %}
+                    {% assign this_link_icon = this_link_icon | replace: '&', 'and' %}
+                    {% render 'logos' with icon: this_link_icon %}
+                {% else %}
+                {% endif %}
+                {{ this_link_icon_split[0] }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

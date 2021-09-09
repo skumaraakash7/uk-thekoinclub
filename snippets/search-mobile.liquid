@@ -1,0 +1,55 @@
+{% comment %}
+----------------------------------------------------------------------------
+  Snippet: Search callout
+  - Search for mobile
+----------------------------------------------------------------------------
+{% endcomment %}
+<div
+    class="site-header__mobile-menu mobile-menu critical-hide"
+    js-mobile-nav="menu"
+    js-mobile-menu="search"
+>
+
+      <div class="relative">
+
+        <div class="list-style-none mobile-blocks background-color-white menu-max-width">
+
+            <div class="mobile-menu__site-search border-color-light-grey background-color-off-white">
+                <div class="relative">
+                    <input
+                        id="site-search__term"
+                        class="site-search__term border-color-light-grey"
+                        autocapitalize="off"
+                        autocorrect="off"
+                        placeholder="{{ 'general.search.placeholder' | t }}"
+                        required
+                        type="email"
+                    >
+                    <button
+                        id="site-search__submit"
+                        class="site-search__submit"
+                    >
+                        {% render 'icons' with icon: 'search' %}
+                    </button>
+                </div>
+            </div>
+
+            <ul class="mobile-menu__search-suggestions list-style-none card-grid card-grid--mini">
+                {% assign card_counter = 0 %}
+                {% for product in collections.disney.products %}
+                    {% render 'product-card-mini' with product: product, card_counter: card_counter %}
+                {% endfor %}
+            </ul>
+
+        </div>
+
+        <div class="menu-overlay background-opal-black" js-mobile-nav="close">
+            <div class="menu-max-width relative">
+                <div class="menu-overlay__close">
+                    {% render 'icons' with icon: 'close' %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

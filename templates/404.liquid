@@ -1,0 +1,28 @@
+<h1 class="h3 text-center">{{ 'general.404.title' | t }}</h1>
+<p class="text-center">{{ 'general.404.subtext_html' | t }}</p>
+
+<section class="vertical-padding vertical-padding--small recommended rebuy-feed hide" data-rebuy-carousel-section="{{ settings.rebuy_404_id }}">
+  {%- if settings.rebuy_404_title != blank -%}
+    <h3 class="color-navy h3 carousel-title page-width page-padding">{{ settings.rebuy_404_title | escape }}</h3>
+  {%- endif -%}
+
+  <div class="">
+
+    <div class="page-width page-padding">
+
+      {% assign rebuy_id = settings.rebuy_404_id %}
+
+      <div
+        data-rebuy-id="{{ settings.rebuy_404_id }}"
+        data-rebuy-carousel="{{ settings.rebuy_404_id }}"
+        class="rebuy-feed carousel-hide carousel-hide--transition"
+        v-cloak
+      >
+        {% render 'rebuy-script' %}
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
