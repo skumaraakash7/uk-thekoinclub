@@ -71,10 +71,9 @@
 
 <div id="ImageWrapper-{{ image.id }}-{{ responsive_image_counter }}" data-image-id="{{ image.id }}" class="responsive-image__wrapper {{ wrapper_class }}" {{ wrapper_attributes }}>
   <img id="Image-{{ image.id }}-{{ responsive_image_counter }}"
-    class="responsive-image__image lazyloaded {{ image_class }} lazy2"
-    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-    data-src="{{ image | img_url: '720x' }}"
-    data-mobsrc="{{ image | img_url: '480x' }}"
+    class="responsive-image__image lazyload {{ image_class }}"
+    src="{{ image | img_url: '300x' }}"
+    data-src="{{ img_url }}"
     data-widths="[{{ image_widths }}]"
     data-aspectratio="{{ image.aspect_ratio }}"
     data-sizes="auto"

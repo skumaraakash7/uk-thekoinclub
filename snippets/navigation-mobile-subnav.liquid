@@ -5,10 +5,7 @@
 {% endcomment %}
 <li class="{% if link.active %}current-menu-item{% endif %} {% if forloop.last %}menu-item-last{% endif %} mobile-blocks__sub-menu-item mobile-blocks__sub-menu-item--link">
     <div class="mobile-blocks__sub-menu-item-inner relative border-color-light-grey background-color-white">
-        <a
-        href="{{ link.url }}"
-        class=""
-        >
+        <a href="{{ link.url }}" class="">
 
         {% assign this_link_icon_split = link.title | split: '#' %}
         {% if this_link_icon_split[1] != blank %}
@@ -23,13 +20,10 @@
         {% assign this_link_icon = this_link_icon | replace: '£', '' %}
         {% assign this_link_icon = this_link_icon | replace: '&', 'and' %}
 
-        <p class="p mobile-blocks__sub-menu-item--title bold">
-            {{ this_link_icon_split[0] }}
-        </p>
+        <p class="p mobile-blocks__sub-menu-item--title bold">{{ this_link_icon_split[0] }}</p>
 
         {% if this_link_icon != 'none' %}
-            <!-- get {{ this_link_icon }}.png -->
-            <div style="background: url(https://cdn.shopify.com/s/files/1/0524/0641/9644/files/mobile-nav-{{ this_link_icon }}.png?v=4); background-size: auto 100%; background-position: 0.5rem 0; background-repeat: no-repeat;" class="mobile-blocks__sub-menu-item--image mobile-blocks__image mobile-blocks__image--{{ icon }}"></div>
+            <div style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=); background-size: auto 100%; background-position: 0.5rem 0; background-repeat: no-repeat;" class="mobile-blocks__sub-menu-item--image mobile-blocks__image mobile-blocks__image--{{ icon }} lazybg" data-style="background: url(https://cdn.shopify.com/s/files/1/0524/0641/9644/files/mobile-nav-{{ this_link_icon }}.png?v=4); background-size: auto 100%; background-position: 0.5rem 0; background-repeat: no-repeat;"></div>
         {% else %}
             <div style="" class="mobile-blocks__sub-menu-item--image mobile-blocks__image mobile-blocks__image--{{ icon }}"></div>
         {% endif %}

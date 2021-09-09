@@ -4,16 +4,9 @@
   - Search for mobile
 ----------------------------------------------------------------------------
 {% endcomment %}
-<div
-    class="site-header__mobile-menu mobile-menu critical-hide"
-    js-mobile-nav="menu"
-    js-mobile-menu="search"
->
-
+<div class="site-header__mobile-menu mobile-menu critical-hide" js-mobile-nav="menu" js-mobile-menu="search">
       <div class="relative">
-
         <div class="list-style-none mobile-blocks background-color-white menu-max-width">
-
             <div class="mobile-menu__site-search border-color-light-grey background-color-off-white">
                 <div class="relative">
                     <input
@@ -40,9 +33,7 @@
                     {% render 'product-card-mini' with product: product, card_counter: card_counter %}
                 {% endfor %}
             </ul>
-
         </div>
-
         <div class="menu-overlay background-opal-black" js-mobile-nav="close">
             <div class="menu-max-width relative">
                 <div class="menu-overlay__close">
@@ -50,6 +41,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
